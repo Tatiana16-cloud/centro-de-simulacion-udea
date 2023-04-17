@@ -2,14 +2,14 @@ import React from 'react'
 
 const TableRow = ({el,setDataToEdit, deleteData}) => {
 
-    let{id,numero,nombre,nombreproducto,fabricante}=el
+    let{id, name, name_device, alias}= el
 
     return (
         <tr>
-            <td>{numero}</td>
-            <td>{nombre}</td>
-            <td>{nombreproducto}</td>
-            <td>{fabricante}</td>
+            <td>{id}</td>
+            <td>{name}</td>
+            <td>{name_device}</td>
+            <td>{alias}</td>
             <td>
                 <button onClick={()=> setDataToEdit(el)}>Editar</button>
                 <button onClick={()=> deleteData(id)}>Eliminar</button>

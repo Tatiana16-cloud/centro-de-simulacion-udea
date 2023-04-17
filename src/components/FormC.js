@@ -45,10 +45,10 @@ const Form = ({createData, updateData, dataToEdit, setDataToEdit}) => {
     <div>
         <h3>{dataToEdit ? "Editar":"Agregar" }</h3>
         <form onSubmit={handleSumit}>
-          <input type="text" name="numero" placeholder='Numero' onChange={handleChange} value={fom.numero}/>
-          <input type="text" name="nombre" placeholder='Nombre' onChange={handleChange} value={fom.nombre}/>
-          <input type="text" name="nombreproducto" placeholder='Nombre del producto' onChange={handleChange} value={fom.nombreproducto}/>
-          <input type="text" name="fabricante" placeholder='Fabricante / Marca' onChange={handleChange} value={fom.fabricante}/>
+          <input type="text" name="numero" placeholder='Numero' onChange={handleChange} value={fom.id}/>
+          <input type="text" name="nombre" placeholder='Nombre' onChange={handleChange} value={fom.name}/>
+          <input type="text" name="nombreproducto" placeholder='Nombre del producto' onChange={handleChange} value={fom.name_device}/>
+          <input type="text" name="fabricante" placeholder='Fabricante / Marca' onChange={handleChange} value={fom.alias}/>
           <input type="submit" value="Enviar"/>
           <input type="reset" value="Limpiar" onClick={handleReset}/>
         </form>

@@ -7,23 +7,25 @@ import Message from './message';
 
 
 const Crud = () => {
-  const[db,setDB]=useState(null)
+  const[devices,setDevices]=useState(null)
   const[dataToEdit,setDataToEdit]=useState(null)
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   let api=helpHttp();
-  let url="http://localhost:5000/equipos"
+  let url="http://localhost:3000/api/equipos"
 
   useEffect(() => {
     setLoading(true);
     helpHttp().get(url).then((res) => {
         if (!res.err) {
-          setDB(res);
+          setDevices(res);
           setError(null);
+          console.log(res)
         } else {
-          setDB(null);
+          setDevices(null);
           setError(res);
+          console.log(res)
         }
         setLoading(false);
       });
@@ -41,7 +43,7 @@ const Crud = () => {
     api.post(url, options).then((res) => {
       //console.log(res);
       if (!res.err) {
-        setDB([...db, res]);
+        setDevices([...devices, res]);
       } else {
         setError(res);
       }
@@ -60,8 +62,8 @@ const Crud = () => {
     api.put(endpoint, options).then((res) => {
       //console.log(res);
       if (!res.err) {
-        let newData = db.map((el) => (el.id === data.id ? data : el));
-        setDB(newData);
+        let newData = devices.map((el) => (el.id === data.id ? data : el));
+        setDevices(newData);
       } else {
         setError(res);
       }
@@ -82,8 +84,8 @@ const Crud = () => {
       api.del(endpoint, options).then((res) => {
         //console.log(res);
         if (!res.err) {
-          let newData = db.filter((el) => el.id !== id);
-          setDB(newData);
+          let newData = devices.filter((el) => el.id !== id);
+          setDevices(newData);
         } else {
           setError(res);
         }
@@ -111,10 +113,10 @@ const Crud = () => {
             bgColor="#dc3545"
           />
         )}
-        {db && (
+        {devices && (
 
         <Table 
-        data={db}  
+        data={devices}  
         setDataToEdit={setDataToEdit}
         deleteData={deleteData} />
 
