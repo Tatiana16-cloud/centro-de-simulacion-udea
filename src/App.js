@@ -1,14 +1,16 @@
-import React from "react"
-import Crud from "./components/Crud"
+import Home from "./views/Home/Home";
+import { Routes, Route} from "react-router-dom";
+
 
 function App() {
   return (
-    <>
-      <h1>CRUD sencillo por Sara Perez</h1>
-      <Crud/>
-      <hr/>
-
-    </>
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+      </Routes>
+      
+    </div>
   );
 }
 

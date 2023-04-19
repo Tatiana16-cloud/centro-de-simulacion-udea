@@ -1,0 +1,12 @@
+.main-view {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  height: 100%;
+}
+  
+.content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+}
