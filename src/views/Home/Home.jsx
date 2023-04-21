@@ -3,6 +3,7 @@ import Sidebar from '../../components/Sidebar/sidebar.component';
 import Header from '../../components/Header/header.component';
 import DevicesBody from '../../components/DevicesBody/devicesBody.component';
 import styles from './Home.module.css';
+import BodyContainer from '../../components/Body/bodyContainer.component';
 
 const Home = () => {
   return (
@@ -10,7 +11,9 @@ const Home = () => {
       <Sidebar />
       <div className={styles["content"]}>
         <Header />
-        <DevicesBody />
+        <BodyContainer>
+          <DevicesBody/>
+        </BodyContainer>
       </div>
     </div>
   );
