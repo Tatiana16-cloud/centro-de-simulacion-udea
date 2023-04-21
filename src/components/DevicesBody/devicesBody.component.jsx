@@ -18,6 +18,10 @@ const DevicesBody = () => {
   useEffect(() => {
     setLoading(true);
     getAllDevices()
+    
+    setTimeout(()=> {
+      setLoading(false);
+    }, 1000)
   }, []);
 
   const getAllDevices = async()=>{
@@ -29,10 +33,6 @@ const DevicesBody = () => {
       setDevices(response);
       setError(null);
     }
-
-    setTimeout(()=> {
-      setLoading(false);
-    }, 1000)
   }
 
   const onEditEvent =(data)=>{
