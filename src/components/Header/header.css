@@ -2,13 +2,26 @@
 
 .header {
   padding-left: 30px;
-  width: 100%; /* Asegura que el header ocupe todo el ancho disponible */
+  padding-right: 30px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .title {
   color: var(--primary-color);
   font-family: var(--font-primary);
-  font-size: 20px;
+  font-size: 24px;
+}
+
+.user-info{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+
+.text-name{
+  font-family: var(--font-primary);
+  font-size: 15px;
 }
