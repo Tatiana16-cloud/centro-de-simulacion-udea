@@ -1,0 +1,42 @@
+@import '../variables.css';
+
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #f1f1f1;
+  border-radius: 25px;
+  max-height: 35px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 8px;
+  font-family: var(--font-primary);
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
+  background-color: #00000000;
+  border: 2px solid #00000000;
+}
+
+.search-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #00000000;
+  border: 2px solid #00000000;
+  color: rgb(36, 36, 36);
+  font-size: 16px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #297fb900;
+}
+
+.search-button i {
+  font-size: 20px;
+}

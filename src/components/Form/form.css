@@ -1,7 +1,9 @@
+@import '../variables.css';
+
 .input[type="text"],
 .input[type="email"],
 .textarea {
-  border: thin solid #dedede;
+  border: thin solid var(--light-text-color);
   border-radius: 0.25rem;
   padding: 0.75rem;
   margin-bottom: 1rem;
@@ -21,13 +23,13 @@
 .button,
 .input[type="submit"],
 .input[type="reset"] {
-  border: thin solid #444;
+  border: thin solid var(text-color);
   border-radius: 0.25rem;
   padding: 0.5rem 1rem;
   margin: 0 0.5rem 0 0;
   display: inline-block;
   background-color: #eee;
-  color: #444;
+  color: var(text-color);;
   font-weight: bold;
   font-size: 1rem;
   line-height: 1;

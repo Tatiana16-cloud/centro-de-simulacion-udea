@@ -1,0 +1,54 @@
+@import '../variables.css';
+
+.menu-container{
+    width: 100%;
+    font-family: var(--font-primary);
+    margin-top: 25px;
+}
+
+.menu-item {
+    cursor: pointer;
+    padding: 8px 16px;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    width: 100%; /* Establecer el ancho de las opciones del menú */
+    text-align: left;
+    display: flex; /* Cambiar a display flex */
+    justify-content: space-between; /* Espaciar los elementos en el menú */
+    align-items: center; /* Alinear verticalmente los elementos */
+    color: #fff;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+
+  .menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Cambiar el color de fondo al pasar el mouse sobre las opciones del menú */
+  }
+  
+  .submenu {
+    overflow: hidden;
+    list-style-type: none;
+    padding: 0;
+    margin: 10px;
+    max-height: 0;
+    transition: max-height 0.1s ease-in-out;
+    padding-left: 15px;
+  }
+  
+  .submenu-item {
+    padding: 8px 16px;
+    cursor: pointer;
+    background-color: transparent; /* Cambiar el color de fondo de las opciones del submenú */
+    color: rgba(255, 255, 255, 0.716); /* Cambiar el color del texto en las opciones del submenú */
+    margin-bottom: 5px;
+  }
+  
+  .submenu-item.selected,
+  .submenu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Cambiar el color de fondo al pasar el mouse sobre las opciones del submenú */
+  }
+  
+  .show {
+    max-height: 500px; /* Este valor debe ser suficientemente grande para contener el contenido del submenú */
+  }

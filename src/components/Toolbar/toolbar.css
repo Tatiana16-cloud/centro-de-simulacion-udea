@@ -1,0 +1,6 @@
+.toolbar-body {
+    display: flex;
+    align-items: center;
+    height: 90px;
+    gap: 15px;
+}

@@ -1,0 +1,16 @@
+/* src/variables.css */
+:root {
+    --primary-color: #294f07;
+    --secondary-color: #ffffff;
+    --accent-color: #3c8406;
+    --text-dark-color: rgb(52, 52, 52);
+    --text-color: rgb(124, 124, 124);
+    --background-color: rgb(72, 72, 72);
+    --light-text-color: #fff;
+    --font-primary: 'Quicksand', sans-serif;
+    --font-secondary: 'Open Sans', sans-serif;
+    --breakpoint-mobile: 480px;
+    --breakpoint-tablet: 768px;
+    --breakpoint-desktop: 1024px;
+  }
+  
