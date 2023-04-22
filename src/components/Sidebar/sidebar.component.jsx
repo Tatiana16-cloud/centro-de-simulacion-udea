@@ -1,7 +1,7 @@
 import React from 'react';
 import './sidebar.css';
 import MenuDropDown from '../MenuDropDown/menuDropDown.component'
-import { faCoffee, faUser, faCog, faHome, faStar, faCircle, faSquare } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faUser, faCog, faSquare, faStar, faCircle, faBars } from '@fortawesome/free-solid-svg-icons';
 
 
 const menuItems = [
@@ -12,14 +12,14 @@ const menuItems = [
       { label: 'Submenú 1.2', icon: faCircle },
       { label: 'Submenú 1.3', icon: faSquare },
     ],
-    icon: faHome,
+    icon: faUser,
   },
   {
     label: 'Inventario',
     submenu: [
       { label: 'Submenú 2.1', icon: faStar },
     ],
-    icon: faUser,
+    icon: faBars,
   },
   {
     label: 'Otra opción',
