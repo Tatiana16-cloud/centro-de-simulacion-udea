@@ -144,14 +144,16 @@ const DevicesBody = () => {
                 name: device.name,
                 alias: device.alias,
                 brand: device.brand,
-                model: device.model
+                model: device.model,
+                status: device.status
               }))}  
               headers={[
                 'Número',
                 'Nombre',
                 'Alias',
                 'Marca',
-                'Modelo'
+                'Modelo',
+                'Estado'
               ]}
               onEditEvent={onEditEvent}
               onDeleteEvent={deleteData} 
