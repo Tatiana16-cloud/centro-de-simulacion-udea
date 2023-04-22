@@ -122,8 +122,6 @@ const DevicesBody = () => {
               />
             </FloatingWindow>
           }
-
-          {loading && <Loader />}
           {error && (
             <MessageComponent
               msg={`Error ${error.message}: ${error.body}`}
@@ -138,6 +136,7 @@ const DevicesBody = () => {
             <Dropdown label={'Ordenar por:'} options={['Recientes','En mantenimiento','']} />
           </Toolbar>
           )}
+          {loading && <Loader />}
           {devices && !loading && (
             <Table 
               data={devices.map((device)=> ({
@@ -148,7 +147,7 @@ const DevicesBody = () => {
                 model: device.model
               }))}  
               headers={[
-                'Id',
+                'Número',
                 'Nombre',
                 'Alias',
                 'Marca',
