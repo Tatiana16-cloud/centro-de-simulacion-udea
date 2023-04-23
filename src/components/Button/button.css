@@ -1,0 +1,36 @@
+@import '../variables.css';
+
+.custom-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 15px;
+    font-family: var(--font-primary);
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+  
+  .custom-button:hover {
+    background-color: var(--accent-color);
+  }
+  
+  .custom-button i {
+    margin-right: 8px; /* Espacio entre el ícono y el texto */
+  }
+
+.button-container{
+    padding: 5px;
+}
+
+.text{
+    padding-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -5,7 +5,6 @@ class DeviceService {
     api = helpHttp();
     url = base_url + "/devices"
     
-    constructor(){}
 
     async getAllData(){
         try {
@@ -23,7 +22,7 @@ class DeviceService {
         };
     
         try {
-            const result = await this.api.post(this.url, options);
+            await this.api.post(this.url, options);
             return {response: data}
         } catch (error) {
             return {error}
@@ -39,7 +38,7 @@ class DeviceService {
         };
     
         try {
-            const result = await this.api.put(endpoint, options);
+            await this.api.put(endpoint, options);
             return {response: data}
         } catch (error) {
             return {error}
@@ -53,7 +52,7 @@ class DeviceService {
         };
 
         try {
-            const result = await this.api.del(endpoint, options);
+            await this.api.del(endpoint, options);
             return {response: id}
         } catch (error) {
             return {error}

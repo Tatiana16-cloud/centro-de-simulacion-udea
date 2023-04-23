@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Table from '../Table/table.component';
 import Form from '../Form/form.component';
-import Loader from '../Loader/loader.component';
+import Loader from '../LoaderV2/loader.component';
 import FloatingWindow from '../FloatingWindow/floatingWindow.component';
 import DeviceService from '../../Services/device.service';
 import MessageComponent from '../Message/message.component';
+import Toolbar from '../Toolbar/toolbar.component';
+import Button from '../Button/button.component'
+import SearchBox from '../SearchBox/searchbox.component'
+import Dropdown from '../Dropdown/dropdown.component'
+
+import './devicesBody.css'
 
 const DevicesBody = () => {
   const[devices,setDevices]=useState(null)
@@ -86,8 +92,7 @@ const DevicesBody = () => {
   }
 
   return (
-    <div>
-        <h2>CRUD API</h2>
+    <div className='body'>
         <article className='grid-1-2'>
           { isOnEditMode && dataToEdit &&
             <FloatingWindow onClose={onCloseEditModeEvent}>
@@ -117,14 +122,21 @@ const DevicesBody = () => {
               />
             </FloatingWindow>
           }
-
-          {loading && <Loader />}
           {error && (
             <MessageComponent
               msg={`Error ${error.message}: ${error.body}`}
               bgColor="#dc3545"
             />
           )}
+          {devices && (
+          <Toolbar>
+            <Button text={'Ingresar Equipo'}/>
+            <Button text={'Nuevo mantenimiento'}/>
+            <SearchBox/>
+            <Dropdown label={'Ordenar por:'} options={['Recientes','En mantenimiento','']} />
+          </Toolbar>
+          )}
+          {loading && <Loader />}
           {devices && !loading && (
             <Table 
               data={devices.map((device)=> ({
@@ -132,14 +144,16 @@ const DevicesBody = () => {
                 name: device.name,
                 alias: device.alias,
                 brand: device.brand,
-                model: device.model
+                model: device.model,
+                status: device.status
               }))}  
               headers={[
-                'Id',
+                'Número',
                 'Nombre',
                 'Alias',
                 'Marca',
-                'Modelo'
+                'Modelo',
+                'Estado'
               ]}
               onEditEvent={onEditEvent}
               onDeleteEvent={deleteData} 

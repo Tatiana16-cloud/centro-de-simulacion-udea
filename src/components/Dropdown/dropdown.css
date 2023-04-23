@@ -1,0 +1,30 @@
+@import '../variables.css';
+
+.dropdown-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid lightgray;
+    background-color: transparent;
+    padding: 5px 20px 5px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    min-height: 25px;
+  }
+  
+  .dropdown-label {
+    margin-right: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: var(--font-primary);
+    color:var(--text-color);
+  }
+  
+  .dropdown-select {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-family: var(--font-primary);
+  }
+  

@@ -8,7 +8,6 @@ const Table = ({data, headers, onEditEvent, onDeleteEvent}) => {
 
     return (
         <div>
-            <h3>Tabla de datos</h3>
             <table className='table'>
                 <thead>
                     <tr className='tr'>
