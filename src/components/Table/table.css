@@ -1,5 +1,19 @@
 @import '../variables.css';
 
+.table-container {
+    max-height: 500px;
+    overflow-y: auto;
+    width: 100%;
+}
+  
+
+thead th {
+    position: sticky;
+    top: 0; /* Ajusta este valor si tienes un margen o un encabezado fijo en la parte superior de la página */
+    background-color: white; /* Ajusta el color de fondo según tus necesidades */
+    z-index: 1;
+}
+
 .table {
     border-spacing: 0;
     border-collapse: collapse;
@@ -7,7 +21,7 @@
     font-family: var(--font-primary);
     border-top: 1px solid var(--light-lines); /* Agrega un borde derecho a las celdas */
 }
-  
+
 .th{
     text-align: center;
     padding: 1rem;

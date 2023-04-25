@@ -105,10 +105,14 @@ const DevicesBody = () => {
     setFilteredDevices(results)
   }
 
-  const handlePaginationChange = (newPageNumber, newPageSize) => {
-    setCurrentPage(newPageNumber);
-    setPageSize(newPageSize);
-    setPaginatedDevices(paginateDevices(devices, newPageNumber, newPageSize))
+  const handlePaginationChange = ({
+    currentPage,
+    pageSize
+  }) => {
+    setCurrentPage(currentPage);
+    setPageSize(pageSize);
+    setPaginatedDevices(paginateDevices(devices, currentPage, pageSize))
+    console.log(currentPage,pageSize)
   };
 
   const paginateDevices = (devices, pageNumber, pageSize) => {

@@ -7,7 +7,7 @@ const Table = ({data, headers, onEditEvent, onDeleteEvent}) => {
     const columnTitles = headers.length > 0 ? headers : Object.keys(data[0]);
 
     return (
-        <div>
+        <div className='table-container'>
             <table className='table'>
                 <thead>
                     <tr className='tr'>

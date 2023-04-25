@@ -2,28 +2,31 @@ import React, { useState, useEffect } from "react";
 import "./pagination.css";
 
 const CustomPagination = ({ totalItems, onPaginationChange }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [paginationData, setPaginationData] = useState({
+    currentPage: 1,
+    pageSize: 5
+  });
   const [pageOptions] = useState([5, 10, 20, 50, 100]);
-  const totalPages = Math.ceil(totalItems / pageSize);
+  const totalPages = Math.ceil(totalItems / paginationData.pageSize);
 
   const handlePageChange = (page) => {
-    setCurrentPage(page);
-    onPaginationChange(page, pageSize);
+    setPaginationData({...paginationData, currentPage: page});
+    onPaginationChange({...paginationData, currentPage: page});
   };
 
   const handlePageSizeChange = (event) => {
     const newSize = parseInt(event.target.value);
-    setPageSize(newSize);
 
     const newTotalPages = Math.ceil(totalItems / newSize);
-    const newCurrentPage = currentPage > newTotalPages ? 1 : currentPage;
-    setCurrentPage(newCurrentPage);
-    onPaginationChange(newCurrentPage, newSize);
+    const newCurrentPage = paginationData.currentPage > newTotalPages ? 1 : paginationData.currentPage;
+
+    setPaginationData({pageSize: newSize, currentPage: newCurrentPage});
+    console.log({pageSize: newSize, currentPage: newCurrentPage})
+    onPaginationChange({pageSize: newSize, currentPage: newCurrentPage});
   };
 
   useEffect(() => {
-    setCurrentPage(1);
+    //onPaginationChange({...paginationData});
   }, [totalPages]);
 
   return (
@@ -32,7 +35,7 @@ const CustomPagination = ({ totalItems, onPaginationChange }) => {
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
           <li key={page}>
             <button
-              className={currentPage === page ? "active" : ""}
+              className={paginationData.currentPage === page ? "active" : ""}
               onClick={() => handlePageChange(page)}
             >
               {page}
@@ -44,7 +47,7 @@ const CustomPagination = ({ totalItems, onPaginationChange }) => {
         <label htmlFor="page-size">Items por página: </label>
         <select
           id="page-size"
-          value={pageSize}
+          value={paginationData.pageSize}
           onChange={handlePageSizeChange}
         >
           {pageOptions.map((option) => (

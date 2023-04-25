@@ -1,12 +1,12 @@
 .main-view {
   display: grid;
   grid-template-columns: 1fr 4fr;
-  height: 100vh;
+  height: 100%;
 }
   
 .content {
   display: grid;
   grid-template-rows: 1fr 5fr;
-  height: 100vh;
+  height: 100%;
   padding: 0px 20px 0px 20px;
 }
