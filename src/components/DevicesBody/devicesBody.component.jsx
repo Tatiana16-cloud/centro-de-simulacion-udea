@@ -9,15 +9,22 @@ import Toolbar from '../Toolbar/toolbar.component';
 import Button from '../Button/button.component'
 import SearchBox from '../SearchBox/searchbox.component'
 import Dropdown from '../Dropdown/dropdown.component'
+import {filterByWord} from '../../Utils/SearchingUtils'
+import Pagination from '../Pagination/pagination.component';
 
 import './devicesBody.css'
 
 const DevicesBody = () => {
   const[devices,setDevices]=useState(null)
+  const[filteredDevices,setFilteredDevices]=useState(null)
+  const[paginatedDevices,setPaginatedDevices]=useState(null)
   const[dataToEdit,setDataToEdit]=useState(null)
   const[isOnEditMode,setOnEditMode]=useState(null)
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
   const deviceService = new DeviceService()
 
@@ -34,9 +41,11 @@ const DevicesBody = () => {
     const {response, error} = await deviceService.getAllData()
     if (error) {
       setDevices(null);
+      setPaginatedDevices(null)
       setError(error);
     }else{
       setDevices(response);
+      setPaginatedDevices(paginateDevices(response, currentPage, pageSize))
       setError(null);
     }
   }
@@ -91,6 +100,28 @@ const DevicesBody = () => {
     }
   }
 
+  const searchDevices = (text)=>{
+    const results = filterByWord(devices, text);
+    setFilteredDevices(results)
+  }
+
+  const handlePaginationChange = ({
+    currentPage,
+    pageSize
+  }) => {
+    setCurrentPage(currentPage);
+    setPageSize(pageSize);
+    setPaginatedDevices(paginateDevices(devices, currentPage, pageSize))
+    console.log(currentPage,pageSize)
+  };
+
+  const paginateDevices = (devices, pageNumber, pageSize) => {
+    const startIndex = (pageNumber - 1) * pageSize;
+    const endIndex = startIndex + pageSize;  
+    const filteredArray = devices.slice(startIndex, endIndex);
+    return filteredArray;
+  }
+
   return (
     <div className='body'>
         <article className='grid-1-2'>
@@ -128,18 +159,18 @@ const DevicesBody = () => {
               bgColor="#dc3545"
             />
           )}
-          {devices && (
+          {paginatedDevices && (
           <Toolbar>
             <Button text={'Ingresar Equipo'}/>
             <Button text={'Nuevo mantenimiento'}/>
-            <SearchBox/>
+            <SearchBox onSearch={searchDevices}/>
             <Dropdown label={'Ordenar por:'} options={['Recientes','En mantenimiento','']} />
           </Toolbar>
           )}
           {loading && <Loader />}
-          {devices && !loading && (
+          {paginatedDevices && !loading && (
             <Table 
-              data={devices.map((device)=> ({
+              data={paginatedDevices.map((device)=> ({
                 id: device.id,
                 name: device.name,
                 alias: device.alias,
@@ -157,6 +188,12 @@ const DevicesBody = () => {
               ]}
               onEditEvent={onEditEvent}
               onDeleteEvent={deleteData} 
+            />
+          )}
+          {paginatedDevices && !loading && (
+            <Pagination
+              totalItems={devices.length}
+              onPaginationChange={handlePaginationChange}
             />
           )}
         </article>
