@@ -11,10 +11,12 @@ import SearchBox from '../SearchBox/searchbox.component'
 import Dropdown from '../Dropdown/dropdown.component'
 import {filterByWord} from '../../Utils/SearchingUtils'
 import Pagination from '../Pagination/pagination.component';
+import {ACTIONS} from '../../Commons/actions.commons'
+import DeviceArraySorter from './deviceArraySorter.utils';
 
 import './devicesBody.css'
 
-const DevicesBody = () => {
+const DevicesBody = ({onActionEvent}) => {
   const[devices,setDevices]=useState(null)
   const[filteredDevices,setFilteredDevices]=useState(null)
   const[paginatedDevices,setPaginatedDevices]=useState(null)
@@ -25,6 +27,8 @@ const DevicesBody = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+  const [searchText, setSearchText] = useState(null);
+  const [sortCriterion, setSortCriterion] = useState('default')
 
   const deviceService = new DeviceService()
 
@@ -42,10 +46,12 @@ const DevicesBody = () => {
     if (error) {
       setDevices(null);
       setPaginatedDevices(null)
+      setFilteredDevices(null)
       setError(error);
     }else{
       setDevices(response);
       setPaginatedDevices(paginateDevices(response, currentPage, pageSize))
+      setFilteredDevices(response)
       setError(null);
     }
   }
@@ -100,9 +106,18 @@ const DevicesBody = () => {
     }
   }
 
-  const searchDevices = (text)=>{
-    const results = filterByWord(devices, text);
-    setFilteredDevices(results)
+  const searchEvent = (text)=>{
+    const minLengthToSearch = 3;
+    const hasSearching = text?.length >= minLengthToSearch;
+
+    if(!hasSearching){
+      setSearchText(null)
+      setPaginatedDevices(getArrayDevices(devices, currentPage, pageSize, null, sortCriterion))
+    }else{
+      setCurrentPage(1);
+      setSearchText(text);
+      setPaginatedDevices(getArrayDevices(devices, 1, pageSize, text, sortCriterion))
+    }
   }
 
   const handlePaginationChange = ({
@@ -111,8 +126,7 @@ const DevicesBody = () => {
   }) => {
     setCurrentPage(currentPage);
     setPageSize(pageSize);
-    setPaginatedDevices(paginateDevices(devices, currentPage, pageSize))
-    console.log(currentPage,pageSize)
+    setPaginatedDevices(getArrayDevices(devices, currentPage, pageSize, searchText, sortCriterion))
   };
 
   const paginateDevices = (devices, pageNumber, pageSize) => {
@@ -120,6 +134,43 @@ const DevicesBody = () => {
     const endIndex = startIndex + pageSize;  
     const filteredArray = devices.slice(startIndex, endIndex);
     return filteredArray;
+  }
+
+  const SORT_BY = {
+    SORT_BY_DATE: 'sortByDate',
+    SORT_BY_STATUS: 'sortByStatus',
+    DEFAULT: 'default'
+  }
+
+  const sortMethods = Object.keys(SORT_BY).reduce((methodsObject, key)=>{
+    methodsObject[SORT_BY[key]] = DeviceArraySorter[SORT_BY[key]]
+    return methodsObject
+  },{})
+  
+  const onSelectedSortCriterion = (criterion) => {
+    setSortCriterion(criterion? criterion : 'default')
+    setPaginatedDevices(getArrayDevices(devices, currentPage, pageSize, searchText, criterion? criterion : 'default'))
+  }
+
+  const getArrayDevices = (devices, currentPage, pageSize, searchText, criterion) =>{
+    console.log(currentPage, pageSize, searchText, criterion)
+    let devicesToPaginate = searchDevices(devices, searchText);
+    devicesToPaginate = sortMethods[criterion](devicesToPaginate)
+    return paginateDevices(devicesToPaginate, currentPage, pageSize)
+  }
+
+  const searchDevices = (devices, searchText) => {
+    const searchResults = filterByWord(devices, searchText);
+    setFilteredDevices(searchResults)
+    return searchResults;
+  }
+
+  const onNewDeviceButton = () => {
+    onActionEvent(ACTIONS.newDevice)
+  }
+
+  const onNewSupportButton = () => {
+    onActionEvent(ACTIONS.viewSupports)
   }
 
   return (
@@ -161,10 +212,18 @@ const DevicesBody = () => {
           )}
           {paginatedDevices && (
           <Toolbar>
-            <Button text={'Ingresar Equipo'}/>
-            <Button text={'Nuevo mantenimiento'}/>
-            <SearchBox onSearch={searchDevices}/>
-            <Dropdown label={'Ordenar por:'} options={['Recientes','En mantenimiento','']} />
+            <Button text={'Ingresar Equipo'} onClick={onNewDeviceButton}/>
+            <Button text={'Nuevo mantenimiento'} onClick={onNewSupportButton}/>
+            <SearchBox onSearch={searchEvent}/>
+            <Dropdown 
+              label={'Ordenar por:'} 
+              options={[
+                { label: '', value: null},
+                { label: 'Fecha', value: SORT_BY.SORT_BY_DATE},
+                { label: 'Estado', value: SORT_BY.SORT_BY_STATUS}
+              ]}
+              onSelectedOption={onSelectedSortCriterion}  
+            />
           </Toolbar>
           )}
           {loading && <Loader />}
@@ -192,7 +251,8 @@ const DevicesBody = () => {
           )}
           {paginatedDevices && !loading && (
             <Pagination
-              totalItems={devices.length}
+              totalItems={filteredDevices.length}
+              currentPage={currentPage}
               onPaginationChange={handlePaginationChange}
             />
           )}

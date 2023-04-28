@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./pagination.css";
 
-const CustomPagination = ({ totalItems, onPaginationChange }) => {
+const CustomPagination = ({ totalItems, currentPage ,onPaginationChange }) => {
   const [paginationData, setPaginationData] = useState({
     currentPage: 1,
     pageSize: 5
@@ -21,13 +21,12 @@ const CustomPagination = ({ totalItems, onPaginationChange }) => {
     const newCurrentPage = paginationData.currentPage > newTotalPages ? 1 : paginationData.currentPage;
 
     setPaginationData({pageSize: newSize, currentPage: newCurrentPage});
-    console.log({pageSize: newSize, currentPage: newCurrentPage})
     onPaginationChange({pageSize: newSize, currentPage: newCurrentPage});
   };
 
   useEffect(() => {
-    //onPaginationChange({...paginationData});
-  }, [totalPages]);
+    setPaginationData({...paginationData, ...{currentPage: currentPage}});
+  }, [currentPage]);
 
   return (
     <div className="pagination-container">
