@@ -1,5 +1,6 @@
 import Home from "./views/Home/Home";
 import { Routes, Route} from "react-router-dom";
+import Login from "./views/Login/Login";
 
 
 function App() {
@@ -7,7 +8,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
       
     </div>
