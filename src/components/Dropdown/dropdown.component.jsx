@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './dropdown.css';
 
-const Dropdown = ({ label, options }) => {
+const Dropdown = ({ label, options, onSelectedOption }) => {
   const [selectedOption, setSelectedOption] = useState(options[0]);
 
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
+    onSelectedOption(event.target.value)
   };
 
   return (
@@ -17,8 +18,8 @@ const Dropdown = ({ label, options }) => {
         onChange={handleChange}
       >
         {options.map((option, index) => (
-          <option key={index} value={option}>
-            {option}
+          <option key={index} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

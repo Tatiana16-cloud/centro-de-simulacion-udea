@@ -1,14 +1,19 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import './searchbox.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const SearchBox = ({ onSearch }) => {
+  const [searchValue, setSearchValue] = useState('');
   const inputRef = useRef(null);
 
   const handleClick = () => {
-    const inputValue = inputRef.current.value;
-    onSearch(inputValue);
+    onSearch(searchValue);
+  };
+
+  const handleChange = (event) => {
+    setSearchValue(event.target.value);
+    onSearch(event.target.value);
   };
 
   return (
@@ -19,8 +24,10 @@ const SearchBox = ({ onSearch }) => {
       <input
         className="search-input"
         type="text"
-        placeholder="Buscar..."
+        placeholder="Buscar"
         ref={inputRef}
+        value={searchValue}
+        onChange={handleChange}
       />
     </div>
   );

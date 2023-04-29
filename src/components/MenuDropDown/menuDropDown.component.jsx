@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './menuDropDown.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
-const MenuDropDown = ({menuItems}) => {
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const [selectedSubItemIndex, setSelectedSubItemIndex] = useState(null);
-
+const MenuDropDown = ({
+  menuItems, 
+  onItemClick, 
+  initialActiveIndex = -1,
+  initialSelectedSubItemIndex = -1
+}) => {
+  const [activeIndex, setActiveIndex] = useState(initialActiveIndex);
+  const [selectedSubItemIndex, setSelectedSubItemIndex] = useState(initialSelectedSubItemIndex);
 
   const handleItemClick = (index) => {
     setActiveIndex(index === activeIndex ? -1 : index);
@@ -14,9 +18,15 @@ const MenuDropDown = ({menuItems}) => {
   };
 
   const handleSubItemClick = (index) => {
-    console.log(activeIndex, index)
+    console.log("MenuDrop",activeIndex, index)
     setSelectedSubItemIndex(index);
+    onItemClick(activeIndex, index)
   };
+
+  useEffect(()=>{
+    setActiveIndex(initialActiveIndex)
+    setSelectedSubItemIndex(initialSelectedSubItemIndex)
+  }, [initialActiveIndex, initialSelectedSubItemIndex])
 
   return (
     <div className="menu-container">
@@ -38,7 +48,7 @@ const MenuDropDown = ({menuItems}) => {
                     key={idx} 
                     className={`submenu-item ${selectedSubItemIndex === idx ? 'selected' : ''}`}
                     onClick={() => handleSubItemClick(idx)}>
-                    <FontAwesomeIcon icon={submenuItem.icon} style={{ marginRight: '8px', color: 'rgba(255, 255, 255, 0.716)' }} />
+                    <FontAwesomeIcon icon={submenuItem.icon} style={{ marginRight: '20px', color: 'rgba(255, 255, 255, 0.716)' }} />
                     {submenuItem.label}
                     </li>
                 ))}
