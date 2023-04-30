@@ -3,6 +3,7 @@ import backgroundImage from './background.jpeg';
 import LoginForm from '../../components/LoginForm/LoginForm.component';
 import './Login.css';
 import SpecialTable from '../../components/SpecialTable/specialtable.component';
+import CustomDatePicker from '../../components/DatePicker/datepicker.component';
 
 const Login = () => {
   const backgroundStyle = {
@@ -23,6 +24,7 @@ const Login = () => {
       values={values} 
       editable={editable}
     />
+    <CustomDatePicker/>
     </div>
   );
 };
