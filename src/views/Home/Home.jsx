@@ -5,6 +5,7 @@ import DevicesBody from '../../components/DevicesBody/devicesBody.component';
 import styles from './Home.module.css';
 import BodyContainer from '../../components/Body/bodyContainer.component';
 import { ACTIONS } from '../../Commons/actions.commons';
+import DeviceInfo from '../../components/DeviceInfo/DeviceInfo.component';
 
 const Home = () => {
   const [activeItem, setActiveItem] = useState(ACTIONS.viewDevices);
@@ -26,6 +27,7 @@ const Home = () => {
         <Header />
         <BodyContainer>
           { activeItem === ACTIONS.viewDevices && <DevicesBody onActionEvent={onToolbarClickEvent}/>}
+          { activeItem === ACTIONS.newDevice && <DeviceInfo />}
         </BodyContainer>
       </div>
     </div>

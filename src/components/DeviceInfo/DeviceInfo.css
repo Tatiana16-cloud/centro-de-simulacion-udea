@@ -1,0 +1,30 @@
+.device-info-container {
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+  }
+  
+  .device-info-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 0;
+  }
+  
+  .device-info-column {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0;
+  }
+  
+  .SpecialTable {
+    background-color: #f7f7f7;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+
+  
+
+
+  
