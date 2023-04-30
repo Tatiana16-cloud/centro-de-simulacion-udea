@@ -10,10 +10,10 @@ const SpecialTable = ({ title, keys, values, editable }) => {
           <tr key={index}>
             {title && index === 0 && (
               <td rowSpan={keys.length}>
-                {title && <div>{title}</div>}
+                {title && <div className="bold-style">{title}</div>}
               </td>
             )}
-            <td>{key}</td>
+            <td className="bold-style">{key}</td>
             {editable && editable[index] ? (
               <td>
                 <input type="text" value={values[index]} />
