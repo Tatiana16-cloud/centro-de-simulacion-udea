@@ -9,10 +9,21 @@ table {
     text-align: center;
     border-bottom: 1px solid #ddd;
     border-left: 1px solid #ddd;
+    width: calc(100% / var(--num-columns));
   }
 
 .bold-style{
     font-weight: bold;
+}
+
+.title-table{
+  max-width: 30px;
+}
+
+.tr-table{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 0;
 }
 
   

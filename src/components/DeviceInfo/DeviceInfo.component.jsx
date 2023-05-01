@@ -1,119 +1,185 @@
 import React from 'react';
 import SpecialTable from '../SpecialTable/specialtable.component';
 import './DeviceInfo.css';
+import { formatDate } from '../../Utils/dateUtils';
 
-const DeviceInfo = () => {
+const DeviceInfo = ({device={}}) => {
+
+    const data1 = [
+      {
+        key: "Nombre del elemento",
+        value: device.name?.value ?? '',
+        isEditable: device.name?.isEditable ?? true,
+      },
+      {
+        key: "N° de identificación",
+        value: device.deviceId?.value ?? '',
+        isEditable: device.deviceId?.isEditable ?? true,
+      },
+      {
+        key: "Responsable de inventario",
+        value: device.responsable?.value ?? '',
+        isEditable: device.responsable?.isEditable ?? true,
+      }
+    ];
     
+    const data2 = [
+      {
+        key: "Fabricante/Marca",
+        value: device.brand?.value ?? '',
+        isEditable: device.brand?.isEditable ?? true,
+      },
+      {
+        key: "Ubicación",
+        value: device.location?.value ?? '',
+        isEditable: device.location?.isEditable ?? true,
+      },
+      {
+        key: "Tipo",
+        value: device.type?.value ?? '',
+        isEditable: device.type?.isEditable ?? true,
+      }
+    ];
+    
+    const data3 = [
+      {
+        key: "Modelo",
+        value: device.model?.value ?? '',
+        isEditable: device.model?.isEditable ?? true,
+      },
+      {
+        key: "Serie",
+        value: device.serial?.value ?? '',
+        isEditable: device.serial?.isEditable ?? true,
+      },
+      {
+        key: "Licencia N°",
+        value: device.license?.value ?? '',
+        isEditable: device.license?.isEditable ?? true,
+      }
+    ];
+    
+    const data4 = [
+      {
+        key: "Nombre",
+        value: device.supplier?.name?.value ?? '',
+        isEditable: device.supplier?.name?.isEditable ?? true,
+      },
+      {
+        key: "Telefono",
+        value: device.supplier?.phone_number?.value ?? '',
+        isEditable: device.supplier?.phone_number?.isEditable ?? true,
+      },
+      {
+        key: "E-mail",
+        value: device.supplier?.mail?.value ?? '',
+        isEditable: device.supplier?.mail?.isEditable ?? true,
+      },
+      {
+        key: "Dirección",
+        value: device.supplier?.address?.value ?? '',
+        isEditable: device.supplier?.address?.isEditable ?? true,
+      }
+    ];
+    
+    const data5 = [
+      {
+        key: "Fecha de compra",
+        value: formatDate(device.purchase_date?.value ?? ''),
+        isEditable: device.purchase_date?.isEditable ?? true
+      },
+      {
+        key: "Fecha de recepción",
+        value: formatDate(device.date_received?.value ?? ''),
+        isEditable: device.date_received?.isEditable ?? true
+      }
+    ];
+    
+    const data6 = [
+      {
+        key: "Fecha de puesta en servicio",
+        value: formatDate(device.commissioning_date?.value ?? ''),
+        isEditable: device.commissioning_date?.isEditable ?? true
+      },
+      {
+        key: "Fecha de vencimiento garantia",
+        value: formatDate(device.warranty_expiration_date?.value ?? ''),
+        isEditable: device.warranty_expiration_date?.isEditable ?? true
+      }
+    ];
+    
+    const data7 = [
+      {
+        key: "Acesorios",
+        value: device.accessory_description?.value ?? '',
+        isEditable: device.accessory_description?.isEditable ?? true,
+      }
+    ];
+    
+    const data8 = [
+      {
+        key: "Usos",
+        value: device.use_description?.value ?? '',
+        isEditable: device.use_description?.isEditable ?? true,
+      }
+    ];
+    
+    const data9 = [
+      {
+        key: "Descripción",
+        value: device.observation?.value ?? '',
+        isEditable: device.observation?.isEditable ?? true,
+      }
+    ];
 
-    const device ={
-        id: 1,
-        deviceId: 1781,
-        name: "Modelos de la vagina",
-        alias: "Maletas Modelos de vaginas",
-        brand: "N/A",
-        model: "N/A",
-        location: "Buitron",
-        serial: "N/A",
-        responsable: "Juan Carlos Caro Gil",
-        type: "Hardware",
-        license: null,
-        Supplier: 2,
-        Support_supplier: 2,
-        purchase_date: null,
-        date_received: "1970-01-01T00:00:00.000Z",
-        commissioning_date: "1970-01-01T00:00:00.000Z",
-        warranty_expiration_date: null,
-        accessory_description: "N/A",
-        use_description: "N/A",
-        temperature: "Temperaturas de funcionamiento 10°C a 40°C. Temperatura de asilamiento -15°C a 50°C",
-        humidity: "15% a 90% (sin condensación)",
-        pressure: "N/A",
-        voltage: "N/A",
-        other: "Ninguno",
-        observation: "Traslado Departamento de Ginecologia y Opstetricia. Esta malo para la parte de intubacion",
-        image_url: null,
-        supplier_id: 2,
-        support_supplier_id: 2,
-        supplier: {
-            id: 2,
-            name: "N/A",
-            phone_number: "N/A",
-            address: "N/A"
-        },
-        support_supplier: {
-            id: 2,
-            name: "N/A",
-            phone_number: "N/A",
-            address: "N/A"
-        }
-    }
-
-
-    const values1=["","",""]
-    const keys1= ["Nombre del elemento", "N° de identificación", "Responsable de inventario"]
-    const editable1 = [false, false, false];
-
-    const values2=["","",""]
-    const keys2= ["Fabricante/Marca", "Ubicación", "Tipo"]
-    const editable2 = [false, false, false];
-
-    const values3=["","",""]
-    const keys3= ["Modelo", "Serie", "Licencia N°"]
-    const editable3 = [false, false, false];
-
-    const values4=["","","",""]
-    const keys4= ["Nombre", "Telefono", "E-mail","Dirección"]
-    const editable4 = [false, false, false,false];
-
-    const values5=["",""]
-    const keys5= ["Fecha de compra", "Fecha de recepción"]
-    const editable5 = [false, false];
-
-    const values6=["",""]
-    const keys6= ["Fecha de puesta en servicio", "Fecha de vencimiento garantia"]
-    const editable6 = [false, false];
-
-    const values7=[""]
-    const keys7= ["Acesorios"]
-    const editable7 = [false];
-
-    const values8=[""]
-    const keys8= ["Usos"]
-    const editable8 = [false];
-
-    const values9=[""]
-    const keys9= ["Descripción"]
-    const editable9 = [false];
-
-    const values10=["","","",""]
-    const keys10= ["Temperatura","Humedad relativa","Presión", "Otros"]
-    const editable10 = [false, false, false, false];
+    const data10 = [
+      {
+        key: "Temperatura",
+        value: device.temperature?.value ?? '',
+        isEditable: device.temperature?.isEditable ?? true,
+      },
+      {
+        key: "Humedad relativa",
+        value: device.humidity?.value ?? '',
+        isEditable: device.humidity?.isEditable ?? true,
+      },
+      {
+        key: "Presión",
+        value: device.pressure?.value ?? '',
+        isEditable: device.pressure?.isEditable ?? true,
+      },
+      {
+        key: "Otros",
+        value: device.other?.value ?? '',
+        isEditable: device.other?.isEditable ?? true,
+      }
+    ];
 
     return (
         <div className="device-info-container">
           <div className="device-info-row">
-            <SpecialTable title="" keys={keys1} values={values1} editable={editable1} />
-            <SpecialTable title="" keys={keys2} values={values2} editable={editable2} />
-            <SpecialTable title="" keys={keys3} values={values3} editable={editable3} />
+            <SpecialTable title="" data={data1} />
+            <SpecialTable title="" data={data2} />
+            <SpecialTable title="" data={data3} />
           </div>
             <div className="device-info-column">
-              <SpecialTable title="Datos proveedor del equipo" keys={keys4} values={values4} editable={editable4} />
-              <SpecialTable title="Datos proveedor de mentenimiento" keys={keys4} values={values4} editable={editable4} />
+              <SpecialTable title="Datos proveedor del equipo" data={data4} />
+              <SpecialTable title="Datos proveedor de mentenimiento" data={data4} />
             </div>
             <div className="device-info-column">
-              <SpecialTable title="" keys={keys5} values={values5} editable={editable5} />
-              <SpecialTable title="" keys={keys6} values={values6} editable={editable6} />
+              <SpecialTable title="" data={data5} />
+              <SpecialTable title="" data={data6} />
             </div>
             <div className="device-info-row">
-                <SpecialTable title="" keys={keys7} values={values7} editable={editable7} />
-                <SpecialTable title="" keys={keys8} values={values8} editable={editable8} />
-                <SpecialTable title="" keys={keys9} values={values9} editable={editable9} />
+                <SpecialTable title="" data={data7} />
+                <SpecialTable title="" data={data8} />
+                <SpecialTable title="" data={data9} />
           </div>
           <div className="device-info-column">
-              <SpecialTable title="Condiciones tolerables para" keys={keys10} values={values10} editable={editable10} />
-              <di>
+              <SpecialTable title="Condiciones tolerables para" data={data10} />
+              <div>
 
-              </di>
+              </div>
             </div>
         </div>
       );

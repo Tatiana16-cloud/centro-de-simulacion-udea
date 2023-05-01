@@ -1,14 +1,30 @@
 import { helpHttp } from '../helpers/helpHttp';
 import { base_url } from '../Config/config';
 
-class DeviceService {
+class UserService {
     api = helpHttp();
-    url = base_url + "/devices"
+    url = base_url + "/users"
     
+
+    async logIn({username, password}){
+        let options = {
+            body: {
+                username,
+                password
+            },
+            headers: { "content-type": "application/json" },
+          };
+      
+          try {
+              const result = await this.api.post(this.url+'/login', options);
+              return {response: result}
+          } catch (error) {
+              return {error}
+          }
+    }
 
     async getAllData(){
         try {
-            console.log('requesting')
             const result = await this.api.get(this.url);
             return {response: result}
         } catch (error) {
@@ -61,4 +77,4 @@ class DeviceService {
     }
 }
 
-export default DeviceService
+export default UserService
