@@ -3,11 +3,7 @@ import './header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-const Header = () => {
-  const title = 'Inventario'
-  const user = {
-    name: "Pepito Perez"
-  }
+const Header = ({user, title= "Inventario"}) => {
 
   return (
     <div className='header'>

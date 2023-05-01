@@ -13,7 +13,7 @@ const statusMapping = {
 
 //const objectKeys = Object.keys(statusMapping);
 
-const TableRow = ({rowData,onEditEvent, onDeleteEvent}) => {
+const TableRow = ({rowData,onEditEvent, onViewEvent, onDeleteEvent}) => {
     return (
         <tr>
             {Object.keys(rowData).map((key, index) => {
@@ -35,7 +35,7 @@ const TableRow = ({rowData,onEditEvent, onDeleteEvent}) => {
             <td className='td actions'>
                 <button className='action-button' onClick={()=> onEditEvent(rowData)}>Editar</button>
                 <button className='action-button' onClick={()=> onDeleteEvent(rowData.id)}>Eliminar</button>
-                <button className='action-button' >Hoja de vida</button>
+                <button className='action-button' onClick={()=> onViewEvent(rowData)}>Hoja de vida</button>
             </td>
         </tr>
     

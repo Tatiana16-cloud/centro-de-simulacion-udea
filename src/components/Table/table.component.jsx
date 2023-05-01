@@ -2,7 +2,7 @@ import React from 'react'
 import TableRow from './TableRow.component'
 import './table.css';
 
-const Table = ({data, headers, onEditEvent, onDeleteEvent}) => {
+const Table = ({data, headers, onEditEvent, onViewEvent,onDeleteEvent}) => {
 
     const columnTitles = headers.length > 0 ? headers : Object.keys(data[0]);
 
@@ -24,6 +24,7 @@ const Table = ({data, headers, onEditEvent, onDeleteEvent}) => {
                             rowData={el}
                             onEditEvent={onEditEvent}
                             onDeleteEvent={onDeleteEvent} 
+                            onViewEvent={onViewEvent}
                         /> )
                     )) : (
                         <tr>

@@ -1,7 +1,10 @@
+@import '../src/components/variables.css';
+
 html {
   box-sizing: border-box;
 }
 
 body{
   margin: 0px;
+  font-family: var(--font-primary);
 }

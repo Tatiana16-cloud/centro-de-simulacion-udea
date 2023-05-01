@@ -1,0 +1,5 @@
+@import '../variables.css';
+
+textarea{
+    font-family: var(--font-primary);
+}

@@ -36,8 +36,8 @@ const Sidebar = ({onMenuItemClick, selectedOption = ACTIONS.viewDevices}) => {
     })
     
     return {
-      initialMenuIndex: menuItems.findIndex(item => item.label === menuItem.label),
-      initialSubmenuIndex: menuItems.find(item => item.label === menuItem.label).submenu.findIndex(subItem => subItem.action === selectedOption)
+      initialMenuIndex: menuItems.findIndex(item => item.label === menuItem?.label),
+      initialSubmenuIndex: menuItems.find(item => item.label === menuItem?.label)?.submenu.findIndex(subItem => subItem.action === selectedOption)
     }
   }
 

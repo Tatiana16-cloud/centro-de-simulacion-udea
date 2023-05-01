@@ -1,25 +1,26 @@
 import React from "react";
 import "./specialtable.css";
+import AutoResizingTextarea from "../AutoResizingTextTarea/AutoResizingTextTarea.component";
 
-const SpecialTable = ({ title, keys, values, editable }) => {
+const SpecialTable = ({ title, data }) => {
   return (
     <table>
       <thead></thead>
       <tbody>
-        {keys.map((key, index) => (
-          <tr key={index}>
+        {data.map((element, index) => (
+          <tr style={{'--num-columns': 3}} key={index}>
             {title && index === 0 && (
-              <td rowSpan={keys.length}>
+              <td className="title-table" rowSpan={data.length}>
                 {title && <div className="bold-style">{title}</div>}
               </td>
             )}
-            <td className="bold-style">{key}</td>
-            {editable && editable[index] ? (
+            <td className="bold-style">{element.key}</td>
+            {element.isEditable && element.isEditable ? (
               <td>
-                <input type="text" value={values[index]} />
+                <AutoResizingTextarea value={element.value} />
               </td>
             ) : (
-              <td>{values[index]}</td>
+              <td>{element.value}</td>
             )}
           </tr>
         ))}

@@ -13,6 +13,9 @@ import {filterByWord} from '../../Utils/SearchingUtils'
 import Pagination from '../Pagination/pagination.component';
 import {ACTIONS} from '../../Commons/actions.commons'
 import DeviceArraySorter from './deviceArraySorter.utils';
+import {formatDate} from '../../Utils/dateUtils'
+import { storeDevices, storeEditableDevice, storeViewableDevice } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 import './devicesBody.css'
 
@@ -20,8 +23,6 @@ const DevicesBody = ({onActionEvent}) => {
   const[devices,setDevices]=useState(null)
   const[filteredDevices,setFilteredDevices]=useState(null)
   const[paginatedDevices,setPaginatedDevices]=useState(null)
-  const[dataToEdit,setDataToEdit]=useState(null)
-  const[isOnEditMode,setOnEditMode]=useState(null)
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -30,7 +31,10 @@ const DevicesBody = ({onActionEvent}) => {
   const [searchText, setSearchText] = useState(null);
   const [sortCriterion, setSortCriterion] = useState('default')
 
+  const dispatch = useDispatch();
   const deviceService = new DeviceService()
+  const storedDevices = useSelector(state=>state.devices)
+
 
   useEffect(() => {
     setLoading(true);
@@ -38,31 +42,37 @@ const DevicesBody = ({onActionEvent}) => {
     
     setTimeout(()=> {
       setLoading(false);
-    }, 1000)
+    }, 500)
   }, []);
 
   const getAllDevices = async()=>{
-    const {response, error} = await deviceService.getAllData()
+    const {response, error} = storedDevices? {response: storedDevices} : await deviceService.getAllData()
     if (error) {
       setDevices(null);
       setPaginatedDevices(null)
       setFilteredDevices(null)
       setError(error);
+      dispatch(storeDevices({ devices: null }))
     }else{
       setDevices(response);
       setPaginatedDevices(paginateDevices(response, currentPage, pageSize))
       setFilteredDevices(response)
       setError(null);
+      dispatch(storeDevices({ devices: response }))
     }
   }
 
   const onEditEvent =(data)=>{
-    setDataToEdit(data)
-    setOnEditMode(true)
+    const device = devices.find((device)=>device.id === data.id)
+    dispatch(storeEditableDevice({device}))
+    onActionEvent(ACTIONS.editDevice)
   }
 
-  const onCloseEditModeEvent = ()=>{
-    setOnEditMode(false)
+  const onViewEvent =(data)=>{
+    const device = devices.find((device)=>device.id === data.id)
+    console.log(device)
+    dispatch(storeViewableDevice({device}))
+    onActionEvent(ACTIONS.viewDevice)
   }
 
   /*
@@ -138,7 +148,9 @@ const DevicesBody = ({onActionEvent}) => {
 
   const SORT_BY = {
     SORT_BY_DATE: 'sortByDate',
+    SORT_BY_DEVICE_ID: 'sortByDeviceId',
     SORT_BY_STATUS: 'sortByStatus',
+    SORT_BY_NAME: 'sortByName',
     DEFAULT: 'default'
   }
 
@@ -176,34 +188,6 @@ const DevicesBody = ({onActionEvent}) => {
   return (
     <div className='body'>
         <article className='grid-1-2'>
-          { isOnEditMode && dataToEdit &&
-            <FloatingWindow onClose={onCloseEditModeEvent}>
-              <Form 
-                dataToEdit={{
-                  id: dataToEdit.id,
-                  name: dataToEdit.name,
-                  alias: dataToEdit.alias,
-                  brand: dataToEdit.brand,
-                  model: dataToEdit.model
-                }}
-                types={[
-                  'text',
-                  'text',
-                  'text',
-                  'text'
-                ]}
-                labels={[
-                  'Nombre',
-                  'Alias',
-                  'Marca',
-                  'Modelo'
-                ]}
-                createData={null} 
-                updateData={updateData} 
-                setDataToEdit={setDataToEdit}
-              />
-            </FloatingWindow>
-          }
           {error && (
             <MessageComponent
               msg={`Error ${error.message}: ${error.body}`}
@@ -220,7 +204,8 @@ const DevicesBody = ({onActionEvent}) => {
               options={[
                 { label: '', value: null},
                 { label: 'Fecha', value: SORT_BY.SORT_BY_DATE},
-                { label: 'Estado', value: SORT_BY.SORT_BY_STATUS}
+                { label: 'Código', value: SORT_BY.SORT_BY_DEVICE_ID},
+                { label: 'Nombre', value: SORT_BY.SORT_BY_NAME}
               ]}
               onSelectedOption={onSelectedSortCriterion}  
             />
@@ -231,22 +216,23 @@ const DevicesBody = ({onActionEvent}) => {
             <Table 
               data={paginatedDevices.map((device)=> ({
                 id: device.id,
+                deviceId: device.deviceId,
                 name: device.name,
-                alias: device.alias,
-                brand: device.brand,
-                model: device.model,
+                date_received: formatDate(device.date_received),
+                location: device.location,
                 status: device.status
               }))}  
               headers={[
                 'Número',
+                'Código UdeA',
                 'Nombre',
-                'Alias',
-                'Marca',
-                'Modelo',
+                'Fecha de recibido',
+                'Ubicación y lugar',
                 'Estado'
               ]}
               onEditEvent={onEditEvent}
               onDeleteEvent={deleteData} 
+              onViewEvent={onViewEvent}
             />
           )}
           {paginatedDevices && !loading && (

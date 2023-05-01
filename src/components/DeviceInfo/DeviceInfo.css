@@ -3,6 +3,9 @@
     grid-template-rows: repeat(2, auto);
     grid-template-columns: 1fr;
     grid-gap: 0;
+    max-height: 600px;
+    overflow-y: auto;
+    width: 100%;
   }
   
   .device-info-row {
