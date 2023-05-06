@@ -9,7 +9,10 @@ import DeviceInfo from '../../components/DeviceInfo/DeviceInfo.component';
 import { useSelector, useDispatch} from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { logInSuccess } from "../../redux/actions";
-import e from 'cors';
+import ManageUsersBody from '../../components/ManageUsersBody/manageUsersBody.component';
+import ManagePlacesBody from '../../components/ManagePlacesBody/managePlacesBody.component';
+import ManageLabsBody from '../../components/ManageLabsBody/manageLabsBody.component';
+import ManageReservationsBody from '../../components/ManageReservationsBody/manageReservationsBody.component';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -18,21 +21,22 @@ const Home = () => {
   const [activeItem, setActiveItem] = useState(ACTIONS.viewDevices);
   const [deviceToView, setDeviceToView] = useState({})
   const [deviceToEdit, setDeviceToEdit] = useState({})
+  const [user, setUser] = useState(null)
 
-  const user = useSelector(state=>state.user)
   const viewableDevice = useSelector(state=>state.viewableDevice)
   const editableDevice = useSelector(state=>state.editableDevice)
 
   useEffect(()=>{
     const userLocalString = localStorage.getItem('user');
     const userLocal = JSON.parse(userLocalString)
-    if(!userLocal.name) navigate('/')
-  }, [user])
+    if(userLocal?.name) setUser(userLocal)
+    if(!userLocal?.name) navigate('/')
+  }, [])
 
   const modifyObjectToDeviceInfoFormat = (device, isEditable) => {
     return Object.keys(device).reduce((result, key)=>{
       if(device[key] && typeof device[key] === 'object'){
-        result[key] = modifyObjectToDeviceInfoFormat(editableDevice[key],isEditable)
+        result[key] = modifyObjectToDeviceInfoFormat(device[key],isEditable)
       }else{
         result[key] = {
           value: device[key],
@@ -50,11 +54,9 @@ const Home = () => {
   },[editableDevice])
 
   useEffect(()=>{
-    console.log(viewableDevice)
     if(!viewableDevice) return;
     const deviceToView = modifyObjectToDeviceInfoFormat(viewableDevice, false)
     setDeviceToView(deviceToView)
-    console.log(deviceToView)
   },[viewableDevice])
 
   const onMenuItemClickEvent = (action) => {
@@ -72,28 +74,40 @@ const Home = () => {
 
   return (
     <div className={styles["main-view"]}>
+      
       <Sidebar onMenuItemClick={onMenuItemClickEvent} selectedOption={activeItem}/>
-      <div className={styles["content"]}>
-        <Header user={user} title={
-          activeItem === ACTIONS.viewDevices? 'Inventario' :
-          activeItem === ACTIONS.viewDevice? 'Hoja de vida' :
-          activeItem === ACTIONS.editDevice? 'Editar equipo' :
-          activeItem === ACTIONS.newDevice? 'Nuevo equipo' :
-          activeItem === ACTIONS.viewProfile ? 'Perfil' :
-          activeItem === ACTIONS.viewSupports ? 'Mantenimientos' :
-          'Desconocido'
-        }/>
-        <BodyContainer>
-          { activeItem === ACTIONS.viewDevices && <DevicesBody onActionEvent={onToolbarClickEvent}/>}
-          { [ACTIONS.newDevice, ACTIONS.editDevice, ACTIONS.viewDevice].includes(activeItem)  && 
-            <DeviceInfo device={
-              activeItem === ACTIONS.viewDevice? deviceToView :
-              activeItem === ACTIONS.editDevice? deviceToEdit :
-              activeItem === ACTIONS.newDevice? {} : {}
-            }/>
-          }
-        </BodyContainer>
-      </div>
+      {user && (
+              <div className={styles["content"]}>
+              <Header user={user} title={
+                activeItem === ACTIONS.viewDevices? 'Inventario' :
+                activeItem === ACTIONS.viewDevice? 'Hoja de vida' :
+                activeItem === ACTIONS.editDevice? 'Editar equipo' :
+                activeItem === ACTIONS.newDevice? 'Nuevo equipo' :
+                activeItem === ACTIONS.viewProfile ? 'Perfil' :
+                activeItem === ACTIONS.viewSupports ? 'Mantenimientos' :
+                activeItem === ACTIONS.manageUsers ? 'Usuarios' :
+                activeItem === ACTIONS.managePlaces ? 'Espacios' :
+                activeItem === ACTIONS.manageLabs ? 'Prácticas' :
+                activeItem === ACTIONS.manageReservations ? 'Reservas' :
+                'Desconocido'
+              }/>
+              <BodyContainer>
+                { activeItem === ACTIONS.manageUsers && <ManageUsersBody someProp={0}/>}
+                { activeItem === ACTIONS.managePlaces && <ManagePlacesBody someProp={0}/>}
+                { activeItem === ACTIONS.manageLabs && <ManageLabsBody someProp={0}/>}
+                { activeItem === ACTIONS.manageReservations && <ManageReservationsBody someProp={0}/>}
+      
+                { activeItem === ACTIONS.viewDevices && <DevicesBody onActionEvent={onToolbarClickEvent}/>}
+                { [ACTIONS.newDevice, ACTIONS.editDevice, ACTIONS.viewDevice].includes(activeItem)  && 
+                  <DeviceInfo deviceInput={
+                    activeItem === ACTIONS.viewDevice? deviceToView :
+                    activeItem === ACTIONS.editDevice? deviceToEdit :
+                    activeItem === ACTIONS.newDevice? {} : {}
+                  }/>
+                }
+              </BodyContainer>
+            </div>
+      )}
     </div>
   );
 };

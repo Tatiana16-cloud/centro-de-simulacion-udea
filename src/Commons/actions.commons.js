@@ -5,5 +5,10 @@ export const ACTIONS = {
     editDevice: 'edit-device',
     viewDevice: 'view-device',
     newDevice: 'new-device',
-    viewSupports: 'view-supports'
+    viewSupports: 'view-supports',
+
+    manageUsers: 'manage-users',
+    managePlaces: 'manage-places',
+    manageLabs: 'manage-labs',
+    manageReservations: 'manage-reservations'
   }

@@ -6,6 +6,7 @@ const AutoResizingTextarea = (props) => {
   const textareaRef = useRef(null);
 
   useEffect(() => {
+    setText(props.value)
     autoResize();
   }, [props.value]);
 
@@ -22,7 +23,7 @@ const AutoResizingTextarea = (props) => {
 
   return (
     <textarea
-      {...props}
+      value={text}
       ref={textareaRef}
       onChange={handleChange}
       style={{ ...props.style, overflow: 'hidden', resize: 'none', }}
