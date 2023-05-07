@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Table from '../Table/table.component';
+import Toolbar from '../Toolbar/toolbar.component';
+import Button from '../Button/button.component'
+import SearchBox from '../SearchBox/searchbox.component'
+import Dropdown from '../Dropdown/dropdown.component'
 import './manageUsersBody.css'
+import AddUserModal from '../AddUserModal/AddUserModal.component';
 
 const ManageUsersBody = ({someProp}) => {
   const dataExampleArray = [
@@ -16,6 +21,20 @@ const ManageUsersBody = ({someProp}) => {
 
   return (
     <div className='body'>
+        <Toolbar>
+              <Button text={'Ingresar Usuario'}/>
+              <SearchBox/>
+              <Dropdown 
+                label={'Ordenar por:'} 
+                options={[
+                  { label: '', value: null},
+                  { label: 'Rol'},
+                  { label: 'Ordenar A - Z'},
+                  { label: 'Ordenar Z - A'},
+                ]}
+                 
+              />
+        </Toolbar>
         <Table 
               data={dataExampleArray.map((element)=> ({
                 someProperty1: element.someProperty1,
@@ -26,14 +45,14 @@ const ManageUsersBody = ({someProp}) => {
                 someProperty6: element.someProperty6
               }))}  
               headers={[
-                'Title 1',
-                'Title 2',
-                'Title 3',
-                'Title 4',
-                'Title 5',
-                'Title 6'
+                'Número de identificación',
+                'Nombres y apellidos',
+                'Correo electrónico',
+                'Rol',
+                'Número de celular',
+                'Acciones'
               ]}
-            />
+        />
     </div>
   )
 }

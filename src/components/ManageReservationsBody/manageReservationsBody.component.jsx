@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Table from '../Table/table.component';
 import './manageReservationsBody.css'
+import Toolbar from '../Toolbar/toolbar.component';
+import Button from '../Button/button.component';
+import SearchBox from '../SearchBox/searchbox.component';
+import Dropdown from '../Dropdown/dropdown.component';
 
 const ManageReservationsBody = ({someProp}) => {
   const dataExampleArray = [
@@ -16,6 +20,20 @@ const ManageReservationsBody = ({someProp}) => {
 
   return (
     <div className='body'>
+      <Toolbar>
+        <Button text={'Ingresar reserva'}></Button>
+        <SearchBox />
+        <Dropdown 
+          label={'Filtrar por:'} 
+          options={[
+            { label: '', value: null},
+            { label: 'Rol'},
+            { label: 'Ordenar A - Z'},
+            { label: 'Ordenar Z - A'},
+          ]}
+        />
+
+      </Toolbar>
         <Table 
               data={dataExampleArray.map((element)=> ({
                 someProperty1: element.someProperty1,
@@ -26,12 +44,12 @@ const ManageReservationsBody = ({someProp}) => {
                 someProperty6: element.someProperty6
               }))}  
               headers={[
-                'Title 1',
-                'Title 2',
-                'Title 3',
-                'Title 4',
-                'Title 5',
-                'Title 6'
+                'Nombre de la práctica',
+                'Encargado',
+                'Lugar',
+                'Fecha',
+                'Horario',
+                'Gestión'
               ]}
             />
     </div>

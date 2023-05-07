@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Table from '../Table/table.component';
 import './managePlacesBody.css'
+import Toolbar from '../Toolbar/toolbar.component';
+import Button from '../Button/button.component';
+import SearchBox from '../SearchBox/searchbox.component';
+import Dropdown from '../Dropdown/dropdown.component';
 
 const ManagePlacesBody = ({someProp}) => {
   const dataExampleArray = [
@@ -10,28 +14,36 @@ const ManagePlacesBody = ({someProp}) => {
       someProperty3: 'someProperty3B',
       someProperty4: 'someProperty4B',
       someProperty5: 'someProperty5B',
-      someProperty6: 'someProperty6B',
     }
   ]
 
   return (
     <div className='body'>
+        <Toolbar>
+          <Button text={'Ingresar espacio'}/>
+          <SearchBox />
+          <Dropdown
+            label={'Filtrar por:'} 
+            options={[
+              { label: '', value: null},
+              { label: 'Rol'},
+              { label: 'Ordenar A - Z'},
+              { label: 'Ordenar Z - A'},
+            ]}
+          />
+        </Toolbar>
         <Table 
               data={dataExampleArray.map((element)=> ({
                 someProperty1: element.someProperty1,
                 someProperty2: element.someProperty2,
                 someProperty3: element.someProperty3,
                 someProperty4: element.someProperty4,
-                someProperty5: element.someProperty5,
-                someProperty6: element.someProperty6
               }))}  
               headers={[
-                'Title 1',
-                'Title 2',
-                'Title 3',
-                'Title 4',
-                'Title 5',
-                'Title 6'
+                'Nombre del espacio o sala',
+                'Ubicación',
+                'N° de personas (aforo)',
+                'Gestión',
               ]}
             />
     </div>
