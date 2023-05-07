@@ -14,7 +14,9 @@ const Table = ({data, headers, onEditEvent, onViewEvent,onDeleteEvent}) => {
                         {columnTitles.map((title, index) => (
                             <th className='th' key={index}>{title}</th>
                         ))}
-                        <th className='th' key='actions'>Acciones</th>
+                        {!!onEditEvent && !!onDeleteEvent && !!onViewEvent &&(
+                            <th className='th' key='actions'>Acciones</th>
+                        )}
                     </tr>
                 </thead>
                 <tbody>

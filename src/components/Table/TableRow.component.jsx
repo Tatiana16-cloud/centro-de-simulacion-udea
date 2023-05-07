@@ -32,11 +32,13 @@ const TableRow = ({rowData,onEditEvent, onViewEvent, onDeleteEvent}) => {
                 }
                 return (<td className='td' key={index}>{rowData[key]}</td>)
             })}
-            <td className='td actions'>
-                <button className='action-button' onClick={()=> onEditEvent(rowData)}>Editar</button>
-                <button className='action-button' onClick={()=> onDeleteEvent(rowData.id)}>Eliminar</button>
-                <button className='action-button' onClick={()=> onViewEvent(rowData)}>Hoja de vida</button>
-            </td>
+            { !!onEditEvent && !!onDeleteEvent && !!onViewEvent && (
+                <td className='td actions'>
+                    <button className='action-button' onClick={()=> onEditEvent(rowData)}>Editar</button>
+                    <button className='action-button' onClick={()=> onDeleteEvent(rowData.id)}>Eliminar</button>
+                    <button className='action-button' onClick={()=> onViewEvent(rowData)}>Hoja de vida</button>
+                </td>
+            )}
         </tr>
     
   )

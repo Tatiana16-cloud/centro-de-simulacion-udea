@@ -1,7 +1,19 @@
 import React from 'react';
 import './sidebar.css';
 import MenuDropDown from '../MenuDropDown/menuDropDown.component'
-import { faClipboard, faUser, faPlusSquare, faScrewdriverWrench, faSignOut, faBars, faAddressCard } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faClipboard, 
+  faUser, 
+  faPlusSquare, 
+  faScrewdriverWrench, 
+  faSignOut, 
+  faBars, 
+  faAddressCard,
+  faCalendarDays,
+  faUsers,
+  faFlaskVial,
+  faLocationCrosshairs
+} from '@fortawesome/free-solid-svg-icons';
 import {ACTIONS} from '../../Commons/actions.commons'
 
 const Sidebar = ({onMenuItemClick, selectedOption = ACTIONS.viewDevices}) => {
@@ -21,6 +33,16 @@ const Sidebar = ({onMenuItemClick, selectedOption = ACTIONS.viewDevices}) => {
         { action: ACTIONS.viewDevices, label: 'Ver equipos', icon: faClipboard },
         { action: ACTIONS.newDevice, label: 'Ingresar equipo', icon: faPlusSquare },
         { action: ACTIONS.viewSupports, label: 'Mantenimientos', icon: faScrewdriverWrench },
+      ],
+      icon: faBars,
+    },
+    {
+      label: 'Gestión',
+      submenu: [
+        { action: ACTIONS.manageUsers, label: 'Gestionar usuarios', icon: faUsers },
+        { action: ACTIONS.managePlaces, label: 'Gestionar espacios', icon: faLocationCrosshairs },
+        { action: ACTIONS.manageLabs, label: 'Gestionar practicas', icon: faFlaskVial },
+        { action: ACTIONS.manageReservations, label: 'Gestionar reservas', icon: faCalendarDays },
       ],
       icon: faBars,
     }
