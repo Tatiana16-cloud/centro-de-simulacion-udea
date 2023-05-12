@@ -5,16 +5,17 @@ import Toolbar from '../Toolbar/toolbar.component';
 import Button from '../Button/button.component';
 import SearchBox from '../SearchBox/searchbox.component';
 import Dropdown from '../Dropdown/dropdown.component';
+import AddReservation from '../AddReservation/AddReservation.component'
 
 const ManageReservationsBody = ({someProp}) => {
   const dataExampleArray = [
     {
-      someProperty1: 'someProperty1C',
-      someProperty2: 'someProperty2C',
-      someProperty3: 'someProperty3C',
-      someProperty4: 'someProperty4C',
-      someProperty5: 'someProperty5C',
-      someProperty6: 'someProperty6C',
+      someProperty1: 'Reanimación',
+      someProperty2: 'Juliana Moreno',
+      someProperty3: 'Sala 3',
+      someProperty4: '17/05/2023',
+      someProperty5: '4:00 p.m - 6:00 p.m',
+      someProperty6: 'Botones',
     }
   ]
 
@@ -52,6 +53,7 @@ const ManageReservationsBody = ({someProp}) => {
                 'Gestión'
               ]}
             />
+            <AddReservation></AddReservation>
     </div>
   )
 }

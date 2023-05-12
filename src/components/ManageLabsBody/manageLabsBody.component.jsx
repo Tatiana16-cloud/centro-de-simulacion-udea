@@ -5,6 +5,7 @@ import Toolbar from '../Toolbar/toolbar.component';
 import Button from '../Button/button.component';
 import SearchBox from '../SearchBox/searchbox.component';
 import Dropdown from '../Dropdown/dropdown.component';
+import AddPractice from '../AddPractice/AddPractice.component';
 
 const ManageLabsBody = ({someProp}) => {
   const dataExampleArray = [
@@ -45,6 +46,7 @@ const ManageLabsBody = ({someProp}) => {
                 'Acciones'
               ]}
             />
+            <AddPractice></AddPractice>
     </div>
   )
 }

@@ -1,78 +1,84 @@
 import React, { useState } from "react";
 import "./AddUserModal.css";
 
-const AddUserModal = ({ show, onHide }) => {
-  const [name, setName] = useState("");
-  const [role, setRole] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handlePhoneChange = (event) => {
-    setPhone(event.target.value);
-  };
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
+function FormularioAñadirUsuario() {
+  const [nombre, setNombre] = useState("");
+  const [rol, setRol] = useState("");
+  const [contraseña, setContraseña] = useState("");
+  const [numeroCelular, setNumeroCelular] = useState("");
+  const [correoElectronico, setCorreoElectronico] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // aquí se podría enviar la información del formulario a una base de datos o hacer otra acción necesaria
-    setName("");
-    setRole("");
-    setPassword("");
-    setPhone("");
-    setEmail("");
-    onHide();
+    console.log({
+      nombre,
+      rol,
+      contraseña,
+      numeroCelular,
+      correoElectronico,
+    });
   };
 
   return (
-    <div className={`modal ${show ? "show" : ""}`} onClick={onHide}>
-      <div className="modal-content" onClick={(event) => event.stopPropagation()}>
-        <h2>Añadir usuario</h2>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Nombre de usuario:
-            <input type="text" value={name} onChange={handleNameChange} />
-          </label>
-          <label>
-            Rol:
-            <select value={role} onChange={handleRoleChange}>
-              <option value="">Selecciona un rol</option>
-              <option value="administrador">Administrador</option>
-              <option value="usuario">Usuario</option>
-            </select>
-          </label>
-          <label>
-            Contraseña:
-            <input type="password" value={password} onChange={handlePasswordChange} />
-          </label>
-          <label>
-            Número de celular:
-            <input type="tel" value={phone} onChange={handlePhoneChange} />
-          </label>
-          <label>
-            Correo electrónico:
-            <input type="email" value={email} onChange={handleEmailChange} />
-          </label>
-          <button type="submit">Añadir</button>
-        </form>
+    <form onSubmit={handleSubmit} className="formulario">
+      <div className="formulario-columnas">
+        <div>
+          <label htmlFor="nombre">Nombre de usuario:</label>
+          <input
+            type="text"
+            id="nombre"
+            value={nombre}
+            onChange={(event) => setNombre(event.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="rol">Rol:</label>
+          <select
+            id="rol"
+            value={rol}
+            onChange={(event) => setRol(event.target.value)}
+            required
+          >
+            <option value="">Seleccionar</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Usuario">Usuario</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="contraseña">Contraseña:</label>
+          <input
+            type="password"
+            id="contraseña"
+            value={contraseña}
+            onChange={(event) => setContraseña(event.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="numeroCelular">Número de celular:</label>
+          <input
+            type="tel"
+            id="numeroCelular"
+            value={numeroCelular}
+            onChange={(event) => setNumeroCelular(event.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="correoElectronico">Correo electrónico:</label>
+          <input
+            type="email"
+            id="correoElectronico"
+            value={correoElectronico}
+            onChange={(event) => setCorreoElectronico(event.target.value)}
+            required
+          />
+        </div>
       </div>
-    </div>
+      <button type="submit">Añadir usuario</button>
+    </form>
   );
-};
+}
 
-export default AddUserModal;
+export default FormularioAñadirUsuario;
