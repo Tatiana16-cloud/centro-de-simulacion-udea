@@ -19,6 +19,11 @@
   .custom-button:hover {
     background-color: var(--accent-color);
   }
+
+  .custom-button:disabled {
+    background-color: var(--background-color);
+    opacity: 0.5;
+  }
   
   .custom-button i {
     margin-right: 8px; /* Espacio entre el ícono y el texto */

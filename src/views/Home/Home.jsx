@@ -6,15 +6,16 @@ import styles from './Home.module.css';
 import BodyContainer from '../../components/Body/bodyContainer.component';
 import { ACTIONS } from '../../Commons/actions.commons';
 import DeviceInfo from '../../components/DeviceInfo/DeviceInfo.component';
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch, connect} from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { logInSuccess } from "../../redux/actions";
 import ManageUsersBody from '../../components/ManageUsersBody/manageUsersBody.component';
 import ManagePlacesBody from '../../components/ManagePlacesBody/managePlacesBody.component';
 import ManageLabsBody from '../../components/ManageLabsBody/manageLabsBody.component';
 import ManageReservationsBody from '../../components/ManageReservationsBody/manageReservationsBody.component';
+import { editableFieldsForEditView, emptyDevice, modifyObjectToDeviceInfoFormat } from './deviceEditor';
 
-const Home = () => {
+const Home = ({viewableDevice, editableDevice}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -23,39 +24,25 @@ const Home = () => {
   const [deviceToEdit, setDeviceToEdit] = useState({})
   const [user, setUser] = useState(null)
 
-  const viewableDevice = useSelector(state=>state.viewableDevice)
-  const editableDevice = useSelector(state=>state.editableDevice)
-
   useEffect(()=>{
+    console.log('useEffect')
     const userLocalString = localStorage.getItem('user');
     const userLocal = JSON.parse(userLocalString)
     if(userLocal?.name) setUser(userLocal)
     if(!userLocal?.name) navigate('/')
   }, [])
 
-  const modifyObjectToDeviceInfoFormat = (device, isEditable) => {
-    return Object.keys(device).reduce((result, key)=>{
-      if(device[key] && typeof device[key] === 'object'){
-        result[key] = modifyObjectToDeviceInfoFormat(device[key],isEditable)
-      }else{
-        result[key] = {
-          value: device[key],
-          isEditable: isEditable,
-        }
-      }
-      return result;
-    },{})
-  }
 
   useEffect(()=>{
+    console.log("editableDevice",editableDevice)
     if(!editableDevice) return;
-    const deviceToEdit = modifyObjectToDeviceInfoFormat(editableDevice, true)
+    const deviceToEdit =  modifyObjectToDeviceInfoFormat(editableDevice, editableFieldsForEditView)
     setDeviceToEdit(deviceToEdit)
   },[editableDevice])
 
   useEffect(()=>{
     if(!viewableDevice) return;
-    const deviceToView = modifyObjectToDeviceInfoFormat(viewableDevice, false)
+    const deviceToView = modifyObjectToDeviceInfoFormat(viewableDevice, [])
     setDeviceToView(deviceToView)
   },[viewableDevice])
 
@@ -102,8 +89,14 @@ const Home = () => {
                   <DeviceInfo deviceInput={
                     activeItem === ACTIONS.viewDevice? deviceToView :
                     activeItem === ACTIONS.editDevice? deviceToEdit :
-                    activeItem === ACTIONS.newDevice? {} : {}
-                  }/>
+                    activeItem === ACTIONS.newDevice? modifyObjectToDeviceInfoFormat(emptyDevice, editableFieldsForEditView) : {}
+                  }
+                  button={ 
+                    activeItem === ACTIONS.editDevice? {isUpdateButton: true, label: "Guardar"} :
+                    activeItem === ACTIONS.newDevice? {isCreateButton: true, label: "Crear"} : null
+                  } 
+                  onActionEvent={onToolbarClickEvent}
+                  />
                 }
               </BodyContainer>
             </div>
@@ -112,4 +105,9 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state)=>({
+    viewableDevice: state.viewableDevice, 
+    editableDevice: state.editableDevice
+})
+
+export default connect(mapStateToProps)(Home);

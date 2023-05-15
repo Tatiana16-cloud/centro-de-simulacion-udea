@@ -1,9 +1,10 @@
 export function formatDate(dateString) {
     if(!dateString) return '-'
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString('en-us', { month: 'short' });
+    let date = new Date(dateString);
+    const timestamp = date.getTime() + (date.getTimezoneOffset() * 60 * 1000);
+    date = new Date(timestamp);
     const year = date.getFullYear();
-  
-    return `${day}/${month}/${year}`;
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
