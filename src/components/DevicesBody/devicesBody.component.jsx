@@ -63,15 +63,15 @@ const DevicesBody = ({onActionEvent}) => {
   }
 
   const onEditEvent =(data)=>{
+    console.log(devices)
     const device = devices.find((device)=>device.id === data.id)
-    dispatch(storeEditableDevice({device}))
+    dispatch(storeEditableDevice({device:{...device}}))
     onActionEvent(ACTIONS.editDevice)
   }
 
   const onViewEvent =(data)=>{
     const device = devices.find((device)=>device.id === data.id)
-    console.log(device)
-    dispatch(storeViewableDevice({device}))
+    dispatch(storeViewableDevice({device:{...device}}))
     onActionEvent(ACTIONS.viewDevice)
   }
 
@@ -93,13 +93,6 @@ const DevicesBody = ({onActionEvent}) => {
     });
   }
   */
-
-  const updateData= async(data)=>{
-    const {response, error} = await deviceService.updateData(data)
-    if (error) return setError(error);
-    let newData = devices.map((el) => (el.id === response.id ? response : el));
-    setDevices(newData);
-  }
 
   const deleteData= async(id)=>{
     let isDelete = window.confirm(

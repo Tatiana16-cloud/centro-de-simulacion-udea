@@ -1,9 +1,9 @@
 import { helpHttp } from '../helpers/helpHttp';
 import { base_url } from '../Config/config';
 
-class DeviceService {
+class SupportService {
     api = helpHttp();
-    url = base_url + "/devices"
+    url = base_url + "/supports"
     
 
     async getAllData(){
@@ -73,4 +73,4 @@ class DeviceService {
     }
 }
 
-export default DeviceService
+export default SupportService

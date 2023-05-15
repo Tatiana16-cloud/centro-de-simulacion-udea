@@ -30,7 +30,7 @@ const Table = ({data, headers, onEditEvent, onViewEvent,onDeleteEvent}) => {
                         /> )
                     )) : (
                         <tr>
-                        <td colSpan="3">Sin datos</td>
+                        <td colSpan="7">Sin datos</td>
                         </tr> 
                     )}
                 </tbody>

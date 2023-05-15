@@ -2,7 +2,7 @@ import React from "react";
 import "./specialtable.css";
 import AutoResizingTextarea from "../AutoResizingTextTarea/AutoResizingTextTarea.component";
 
-const SpecialTable = ({ title, data }) => {
+const SpecialTable = ({ title, data, onChange }) => {
   return (
     <table>
       <thead></thead>
@@ -14,13 +14,13 @@ const SpecialTable = ({ title, data }) => {
                 {title && <div className="bold-style">{title}</div>}
               </td>
             )}
-            <td className="bold-style">{element.key}</td>
-            {element.isEditable && element.isEditable ? (
+            <td className="bold-style">{element.label}</td>
+            {element.isEditable ? (
               <td>
-                <AutoResizingTextarea value={element.value} />
+                <AutoResizingTextarea value={element.value} onChange={(value)=> onChange(value,element.key)} isDate={element.key.includes('date') || element.key.includes('Date')}/>
               </td>
             ) : (
-              <td>{element.value}</td>
+              <td>{element.value ? element.value :'-'}</td>
             )}
           </tr>
         ))}

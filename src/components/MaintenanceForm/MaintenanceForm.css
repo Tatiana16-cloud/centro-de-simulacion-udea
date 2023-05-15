@@ -1,0 +1,32 @@
+@import '../variables.css';
+
+.form-support{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 40px;
+    gap: 30px;
+    border-radius: 20px;
+}
+
+.form-body{
+    margin-top: 30px;
+    border: 2px solid var(--primary-color);
+    border-radius: 20px;
+    padding: 10px 10px 0px 10px;
+}
+
+.toolbar-support{
+    border-radius: 20px;
+    display: flex;
+    padding: 10px 20px 0px 20px;
+    color: var(--primary-color);
+    font-family: var(--font-primary);
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+.button-body{
+    display: flex;
+    justify-content: flex-end;
+    padding: 0px 40px 0px 20px;
+}
