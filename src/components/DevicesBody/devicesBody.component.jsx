@@ -63,7 +63,6 @@ const DevicesBody = ({onActionEvent}) => {
   }
 
   const onEditEvent =(data)=>{
-    console.log(devices)
     const device = devices.find((device)=>device.id === data.id)
     dispatch(storeEditableDevice({device:{...device}}))
     onActionEvent(ACTIONS.editDevice)
@@ -74,25 +73,6 @@ const DevicesBody = ({onActionEvent}) => {
     dispatch(storeViewableDevice({device:{...device}}))
     onActionEvent(ACTIONS.viewDevice)
   }
-
-  /*
-  const createData=(data)=>{
-    //data.id=Date.now();
-    let options = {
-      body: data,
-      headers: { "content-type": "application/json" },
-    };
-
-    api.post(url, options).then((res) => {
-      //console.log(res);
-      if (!res.err) {
-        setDevices([...devices, res]);
-      } else {
-        setError(res);
-      }
-    });
-  }
-  */
 
   const deleteData= async(id)=>{
     let isDelete = window.confirm(
@@ -140,10 +120,14 @@ const DevicesBody = ({onActionEvent}) => {
   }
 
   const SORT_BY = {
-    SORT_BY_DATE: 'sortByDate',
-    SORT_BY_DEVICE_ID: 'sortByDeviceId',
-    SORT_BY_STATUS: 'sortByStatus',
-    SORT_BY_NAME: 'sortByName',
+    SORT_BY_DATE_ASC: 'sortByDateAsc',
+    SORT_BY_DEVICE_ID_ASC: 'sortByDeviceIdAsc',
+    SORT_BY_STATUS_ASC: 'sortByStatusAsc',
+    SORT_BY_NAME_ASC: 'sortByNameAsc',
+    SORT_BY_DATE_DESC: 'sortByDateDesc',
+    SORT_BY_DEVICE_ID_DESC: 'sortByDeviceIdDesc',
+    SORT_BY_STATUS_DESC: 'sortByStatusDesc',
+    SORT_BY_NAME_DESC: 'sortByNameDesc',
     DEFAULT: 'default'
   }
 
@@ -158,7 +142,6 @@ const DevicesBody = ({onActionEvent}) => {
   }
 
   const getArrayDevices = (devices, currentPage, pageSize, searchText, criterion) =>{
-    console.log(currentPage, pageSize, searchText, criterion)
     let devicesToPaginate = searchDevices(devices, searchText);
     devicesToPaginate = sortMethods[criterion](devicesToPaginate)
     return paginateDevices(devicesToPaginate, currentPage, pageSize)
@@ -190,15 +173,18 @@ const DevicesBody = ({onActionEvent}) => {
           {paginatedDevices && (
           <Toolbar>
             <Button text={'Ingresar Equipo'} onClick={onNewDeviceButton}/>
-            <Button text={'Nuevo mantenimiento'} onClick={onNewSupportButton}/>
+            <Button text={'Ver mantenimientos'} onClick={onNewSupportButton}/>
             <SearchBox onSearch={searchEvent}/>
             <Dropdown 
               label={'Ordenar por:'} 
               options={[
                 { label: '', value: null},
-                { label: 'Fecha', value: SORT_BY.SORT_BY_DATE},
-                { label: 'Código', value: SORT_BY.SORT_BY_DEVICE_ID},
-                { label: 'Nombre', value: SORT_BY.SORT_BY_NAME}
+                { label: 'Fecha ↑', value: SORT_BY.SORT_BY_DATE_ASC},
+                { label: 'Fecha ↓', value: SORT_BY.SORT_BY_DATE_DESC},
+                { label: 'Código ↑', value: SORT_BY.SORT_BY_DEVICE_ID_ASC},
+                { label: 'Código ↓', value: SORT_BY.SORT_BY_DEVICE_ID_DESC},
+                { label: 'Nombre ↑', value: SORT_BY.SORT_BY_NAME_ASC},
+                { label: 'Nombre ↓', value: SORT_BY.SORT_BY_NAME_DESC}
               ]}
               onSelectedOption={onSelectedSortCriterion}  
             />
@@ -213,7 +199,7 @@ const DevicesBody = ({onActionEvent}) => {
                 name: device.name,
                 date_received: formatDate(device.date_received),
                 location: device.location,
-                status: device.status
+                alias: device.alias
               }))}  
               headers={[
                 'Número',
@@ -221,7 +207,7 @@ const DevicesBody = ({onActionEvent}) => {
                 'Nombre',
                 'Fecha de recibido',
                 'Ubicación y lugar',
-                'Estado'
+                'Alias'
               ]}
               onEditEvent={onEditEvent}
               onDeleteEvent={deleteData} 

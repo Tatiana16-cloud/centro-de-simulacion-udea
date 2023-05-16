@@ -22,7 +22,6 @@ const Sidebar = ({onMenuItemClick, selectedOption = ACTIONS.viewDevices}) => {
     {
       label: 'Mi cuenta',
       submenu: [
-        { action: ACTIONS.viewProfile, label: 'Perfil', icon: faAddressCard },
         { action: ACTIONS.closeSession, label: 'Cerrar Sesión', icon: faSignOut },
       ],
       icon: faUser,

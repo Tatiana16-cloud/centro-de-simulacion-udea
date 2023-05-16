@@ -18,7 +18,6 @@ const MenuDropDown = ({
   };
 
   const handleSubItemClick = (index) => {
-    console.log("MenuDrop",activeIndex, index)
     setSelectedSubItemIndex(index);
     onItemClick(activeIndex, index)
   };

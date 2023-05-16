@@ -8,7 +8,8 @@ const statusMapping = {
     active: '#40bb30',
     blocked: '#33ccff',
     inactive: 'yellow',
-    default: '#333333'
+    default: '#333333',
+    SCHEDULED: '#bb3333'
 }
 
 //const objectKeys = Object.keys(statusMapping);

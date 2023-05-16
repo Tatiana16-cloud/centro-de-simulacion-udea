@@ -14,6 +14,7 @@ import ManagePlacesBody from '../../components/ManagePlacesBody/managePlacesBody
 import ManageLabsBody from '../../components/ManageLabsBody/manageLabsBody.component';
 import ManageReservationsBody from '../../components/ManageReservationsBody/manageReservationsBody.component';
 import { editableFieldsForEditView, emptyDevice, modifyObjectToDeviceInfoFormat } from './deviceEditor';
+import SupportsBody from '../../components/SupportsBody/SupportsBody.component';
 
 const Home = ({viewableDevice, editableDevice}) => {
   const navigate = useNavigate();
@@ -25,7 +26,6 @@ const Home = ({viewableDevice, editableDevice}) => {
   const [user, setUser] = useState(null)
 
   useEffect(()=>{
-    console.log('useEffect')
     const userLocalString = localStorage.getItem('user');
     const userLocal = JSON.parse(userLocalString)
     if(userLocal?.name) setUser(userLocal)
@@ -34,7 +34,6 @@ const Home = ({viewableDevice, editableDevice}) => {
 
 
   useEffect(()=>{
-    console.log("editableDevice",editableDevice)
     if(!editableDevice) return;
     const deviceToEdit =  modifyObjectToDeviceInfoFormat(editableDevice, editableFieldsForEditView)
     setDeviceToEdit(deviceToEdit)
@@ -83,7 +82,8 @@ const Home = ({viewableDevice, editableDevice}) => {
                 { activeItem === ACTIONS.managePlaces && <ManagePlacesBody someProp={0}/>}
                 { activeItem === ACTIONS.manageLabs && <ManageLabsBody someProp={0}/>}
                 { activeItem === ACTIONS.manageReservations && <ManageReservationsBody someProp={0}/>}
-      
+
+                { activeItem === ACTIONS.viewSupports && <SupportsBody/>}
                 { activeItem === ACTIONS.viewDevices && <DevicesBody onActionEvent={onToolbarClickEvent}/>}
                 { [ACTIONS.newDevice, ACTIONS.editDevice, ACTIONS.viewDevice].includes(activeItem)  && 
                   <DeviceInfo deviceInput={
