@@ -48,10 +48,7 @@ class DeviceService {
         };
     
         try {
-            console.log('body',options.body)
-            console.log('endpoint',endpoint)
             const res = await this.api.put(endpoint, options);
-            console.log(res)
             return {response: data}
         } catch (error) {
             return {error}

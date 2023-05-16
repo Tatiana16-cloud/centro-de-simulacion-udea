@@ -74,7 +74,6 @@ export const modifyObjectToDeviceInfoFormat = (device, editableFields) => {
     return Object.keys(device).reduce((result, key)=>{
     if(device[key] && typeof device[key] === 'object'){
         const editableSubFields = editableFields.filter((field)=> field.split(`.`)[0] === key && field.split(`.`).length >= 2).map((field)=> field.split(`.`)[1])
-        console.log(device[key], editableSubFields)
         result[key] = modifyObjectToDeviceInfoFormat(device[key], editableSubFields)
     }else{
         result[key] = {

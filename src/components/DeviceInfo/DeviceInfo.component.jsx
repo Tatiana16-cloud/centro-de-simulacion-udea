@@ -6,7 +6,7 @@ import DeviceService from '../../Services/device.service';
 import Loader from '../LoaderV2/loader.component';
 import Modal from '../Modal/Modal.component';
 import Button from '../Button/button.component';
-import { storeDevices, storeEditableDevice, storeViewableDevice } from "../../redux/actions";
+import { storeDevices, storeEditableDevice, storeSupports, storeViewableDevice } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { faArrowRotateBack } from '@fortawesome/free-solid-svg-icons';
 import { ACTIONS } from '../../Commons/actions.commons';
@@ -104,7 +104,6 @@ const DeviceInfo = ({deviceInput, button, onActionEvent}) => {
     }
 
     const createSupportForDevice = async(support)=>{
-      console.log(deviceInput, support)
       const newSupport = {
         device_id: deviceInput.id.value,
         responsable: support.responsable,
@@ -118,6 +117,7 @@ const DeviceInfo = ({deviceInput, button, onActionEvent}) => {
       const {response, error} = await supportService.createData(newSupport);
       setLoading(false)
       if (error) return setModalData('Vuelve a intentarlo mas tarde')
+      dispatch(storeSupports({supports: null}))
       setModalData('Nuevo mantenimiento agendado','Completado!')
     }
 
@@ -129,7 +129,7 @@ const DeviceInfo = ({deviceInput, button, onActionEvent}) => {
             {button && button.isUpdateButton && button.label && <Button text={button.label} isDisable={!hasAnyChange(deviceOutput)} onClick={updateDevice}/>} 
             {button && button.isCreateButton && button.label && <Button text={button.label} isDisable={!checkRequiredFields(deviceOutput)} onClick={createDevice}/>} 
           </div>
-          <div className="device-info-container">
+          <div className="device-info-container" style={{maxHeight: button ? '80vh' : '400px'}}>
             {loading && <Loader />}
             <Modal
               isOpen={isOpen}
@@ -166,7 +166,7 @@ const DeviceInfo = ({deviceInput, button, onActionEvent}) => {
               </div>
           </div>
           <div className='support-form'>
-              <MaintenanceForm scheduleMaintenance={createSupportForDevice}/>
+            {!button && <MaintenanceForm scheduleMaintenance={createSupportForDevice}/>}
           </div>
         </div>
       ))
