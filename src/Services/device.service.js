@@ -54,6 +54,23 @@ class DeviceService {
             return {error}
         }
     }
+
+    async uploadImage(formData){
+        let endpoint = `${this.url}/uploadImage`;
+    
+        let options = {
+            body:formData,
+            headers: {},
+        };
+
+        // Send the image to the server
+        try {
+            const res = await this.api.post(endpoint, options);
+            return {response: res}
+        } catch (error) {
+            return {error}
+        }
+    }
     
     async deleteData(id){
         let endpoint = `${this.url}/${id}`;

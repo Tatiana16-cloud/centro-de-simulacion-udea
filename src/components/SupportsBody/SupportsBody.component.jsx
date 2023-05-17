@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Table from '../Table/table.component';
-import Form from '../Form/form.component';
 import Loader from '../LoaderV2/loader.component';
-import FloatingWindow from '../FloatingWindow/floatingWindow.component';
 import SupportService from '../../Services/support.service';
 import MessageComponent from '../Message/message.component';
 import Toolbar from '../Toolbar/toolbar.component';
-import Button from '../Button/button.component'
 import SearchBox from '../SearchBox/searchbox.component'
 import Dropdown from '../Dropdown/dropdown.component'
 import {filterByWord} from '../../Utils/SearchingUtils'
 import Pagination from '../Pagination/pagination.component';
-import {ACTIONS} from '../../Commons/actions.commons'
 import SupportArraySorter from './supportArraySorter.utils';
 import {formatDate} from '../../Utils/dateUtils'
-import { storeSupports, storeEditableSupport, storeViewableSupport } from "../../redux/actions";
+import { storeSupports } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 
 import './SupportsBody.css'
@@ -158,6 +154,7 @@ const SupportsBody = ({onActionEvent}) => {
               data={paginatedSupports.map((support)=> ({
                 id: support.id,
                 deviceID: support.device_id,
+                deviceName: support.device_name,
                 responsable: support.responsable,
                 date: formatDate(support.date),
                 description: support.description,
@@ -165,8 +162,9 @@ const SupportsBody = ({onActionEvent}) => {
                 type: support.type
               }))}  
               headers={[
-                'ID',
-                'ID Equípo',
+                'ID Mantenimiento',
+                'Código del equipo',
+                'Nombre del equipo',
                 'Responsable',
                 'Fecha',
                 'Descripción',

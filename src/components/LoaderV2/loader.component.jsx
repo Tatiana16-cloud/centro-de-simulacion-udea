@@ -3,7 +3,7 @@ import Lottie from 'react-lottie';
 import animationData from '../../resources/animations/97930-loading.json';
 import "./loader.css";
 
-const Loader = () => {
+const Loader = ({message}) => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -16,7 +16,7 @@ const Loader = () => {
   return (
     <div className="complex-loading-container">
       <Lottie options={defaultOptions} height={30} width={60} />
-      <p>Cargando información de equipos</p>
+      <p>{message? message : 'Cargando información de equipos'}</p>
     </div>
   );
 };
