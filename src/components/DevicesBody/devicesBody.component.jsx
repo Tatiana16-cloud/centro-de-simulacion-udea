@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Table from '../Table/table.component';
-import Form from '../Form/form.component';
 import Loader from '../LoaderV2/loader.component';
-import FloatingWindow from '../FloatingWindow/floatingWindow.component';
 import DeviceService from '../../Services/device.service';
 import MessageComponent from '../Message/message.component';
 import Toolbar from '../Toolbar/toolbar.component';

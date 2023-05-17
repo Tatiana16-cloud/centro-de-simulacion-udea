@@ -6,12 +6,13 @@ import DeviceService from '../../Services/device.service';
 import Loader from '../LoaderV2/loader.component';
 import Modal from '../Modal/Modal.component';
 import Button from '../Button/button.component';
-import { storeDevices, storeEditableDevice, storeSupports, storeViewableDevice } from "../../redux/actions";
+import { storeDevices, storeSupports } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { faArrowRotateBack } from '@fortawesome/free-solid-svg-icons';
 import { ACTIONS } from '../../Commons/actions.commons';
 import MaintenanceForm from '../MaintenanceForm/MaintenanceForm.component';
 import SupportService from '../../Services/support.service';
+import ImageUpload from '../ImageUpload/ImageUpload.component';
 
 const DeviceInfo = ({deviceInput, button, onActionEvent}) => {
     const [deviceOutput, setDeviceOutput] = useState({});
@@ -35,6 +36,7 @@ const DeviceInfo = ({deviceInput, button, onActionEvent}) => {
 
     const onChange = (newValue, key)=>{
       const updatedDeviceOutput = setNestedField(deviceOutput, key, newValue);
+      console.log(updatedDeviceOutput)
       setDeviceOutput(updatedDeviceOutput)
     }
 
@@ -121,6 +123,11 @@ const DeviceInfo = ({deviceInput, button, onActionEvent}) => {
       setModalData('Nuevo mantenimiento agendado','Completado!')
     }
 
+    const handleImageSelect = (imageUrl) => {
+      console.log("handleImageSelect",imageUrl)
+      onChange(imageUrl,'image_url')
+    };
+
     return (
       (deviceData && (
         <div>
@@ -160,9 +167,7 @@ const DeviceInfo = ({deviceInput, button, onActionEvent}) => {
             </div>
             <div className="device-info-column">
                 <SpecialTable title="Condiciones tolerables para" data={deviceData.data10} onChange={onChange}/>
-                <div>
-
-                </div>
+                <ImageUpload initialImageUrl={deviceInput?.image_url?.value} onImageSelect={handleImageSelect} isEditable={button}/>
               </div>
           </div>
           <div className='support-form'>

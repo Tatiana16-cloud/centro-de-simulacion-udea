@@ -12,7 +12,11 @@ export const helpHttp = () => {
         ? { ...defaultHeader, ...options.headers }
         : defaultHeader;
   
-      options.body = JSON.stringify(options.body) || false;
+      if (options.body instanceof FormData) {
+          // Si es FormData, no hacer nada
+      } else {
+          options.body = JSON.stringify(options.body) || false;
+      }
       if (!options.body) delete options.body;
   
       setTimeout(() => controller.abort(), 3000);
