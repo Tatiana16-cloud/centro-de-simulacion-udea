@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Table from '../Table/table.component';
-import './manageUsersBody.css'
+import Toolbar from '../Toolbar/toolbar.component';
+import Button from '../Button/button.component';
+import SearchBox from '../SearchBox/searchbox.component';
+import Dropdown from '../Dropdown/dropdown.component';
+import './manageUsersBody.css';
+import AddUserModal from '../AddUserModal/AddUserModal.component';
 
-const ManageUsersBody = ({someProp}) => {
+const ManageUsersBody = ({ someProp }) => {
   const dataExampleArray = [
     {
       someProperty1: 'someProperty1',
@@ -11,31 +16,54 @@ const ManageUsersBody = ({someProp}) => {
       someProperty4: 'someProperty4',
       someProperty5: 'someProperty5',
       someProperty6: 'someProperty6',
-    }
-  ]
+    },
+  ];
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleAddUserClick = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   return (
-    <div className='body'>
-        <Table 
-              data={dataExampleArray.map((element)=> ({
-                someProperty1: element.someProperty1,
-                someProperty2: element.someProperty2,
-                someProperty3: element.someProperty3,
-                someProperty4: element.someProperty4,
-                someProperty5: element.someProperty5,
-                someProperty6: element.someProperty6
-              }))}  
-              headers={[
-                'Title 1',
-                'Title 2',
-                'Title 3',
-                'Title 4',
-                'Title 5',
-                'Title 6'
-              ]}
-            />
+    <div className="body">
+      <Toolbar>
+        <SearchBox />
+        <Dropdown
+          label={'Ordenar por:'}
+          options={[
+            { label: '', value: null },
+            { label: 'Rol' },
+            { label: 'Ordenar A - Z' },
+            { label: 'Ordenar Z - A' },
+          ]}
+        />
+      </Toolbar>
+      <Table
+        data={dataExampleArray.map((element) => ({
+          someProperty1: element.someProperty1,
+          someProperty2: element.someProperty2,
+          someProperty3: element.someProperty3,
+          someProperty4: element.someProperty4,
+          someProperty5: element.someProperty5,
+          someProperty6: element.someProperty6,
+        }))}
+        headers={[
+          'Número de identificación',
+          'Nombres y apellidos',
+          'Correo electrónico',
+          'Rol',
+          'Número de celular',
+          'Acciones',
+        ]}
+      />
+      <AddUserModal></AddUserModal>
     </div>
-  )
-}
+  );
+};
 
-export default ManageUsersBody
+export default ManageUsersBody;

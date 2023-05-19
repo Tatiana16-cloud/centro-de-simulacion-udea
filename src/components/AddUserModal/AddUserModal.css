@@ -1,0 +1,66 @@
+.formulario {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.formulario-columnas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+
+/* Estilos para el resto del formulario */
+/* 
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+} */
+
+.formulario label {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+.formulario input,
+.formulario select {
+  padding: 0.5em;
+  font-size: 1.2em;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 1em;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.formulario input:focus,
+.formulario select:focus {
+  outline: none;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.formulario button[type="submit"] {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.5em 1em;
+  font-size: 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1em;
+}
+
+.formulario button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
