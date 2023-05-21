@@ -9,12 +9,25 @@ const statusMapping = {
     blocked: '#33ccff',
     inactive: 'yellow',
     default: '#333333',
-    SCHEDULED: '#bb3333'
+    SCHEDULED: '#bb3333',
+    CLOSED: '#222',
+    DONE: '#40bb30'
+}
+
+const statusLabels = {
+    pending: 'Pendiente',
+    active: 'Activo',
+    blocked: 'Bloqueado',
+    inactive: 'Inactivo',
+    default: 'Sin estado',
+    SCHEDULED: 'Programado',
+    CLOSED: 'Anulado',
+    DONE: 'Completado',
 }
 
 //const objectKeys = Object.keys(statusMapping);
 
-const TableRow = ({rowData,onEditEvent, onViewEvent, onDeleteEvent}) => {
+const TableRow = ({rowData,onEditEvent, onViewEvent, onDeleteEvent, onManageEvent}) => {
     return (
         <tr>
             {Object.keys(rowData).map((key, index) => {
@@ -23,7 +36,7 @@ const TableRow = ({rowData,onEditEvent, onViewEvent, onDeleteEvent}) => {
                     const state = rowData[key] ? rowData[key] : 'default';
                     const color = statusMapping[state];
                     return <td className='td' key={index}>
-                                <Tooltip label= {state}>
+                                <Tooltip label= {statusLabels[state]}>
                                     <Circle 
                                         color={color} 
                                         size={30}
@@ -33,11 +46,14 @@ const TableRow = ({rowData,onEditEvent, onViewEvent, onDeleteEvent}) => {
                 }
                 return (<td className='td' key={index}>{rowData[key]}</td>)
             })}
-            { !!onEditEvent && !!onDeleteEvent && !!onViewEvent && (
-                <td className='td actions'>
-                    <button className='action-button' onClick={()=> onEditEvent(rowData)}>Editar</button>
-                    <button className='action-button' onClick={()=> onDeleteEvent(rowData.id)}>Eliminar</button>
-                    <button className='action-button' onClick={()=> onViewEvent(rowData)}>Hoja de vida</button>
+            { (!!onEditEvent || !!onDeleteEvent || !!onViewEvent || !!onManageEvent) && (
+                <td className='td'>
+                    <div className='actions'>
+                        {!!onEditEvent && <button className='action-button' onClick={()=> onEditEvent(rowData)}>Editar</button>}
+                        {!!onManageEvent && <button className='action-button' onClick={()=> onManageEvent(rowData)}>Gestionar</button>}
+                        {!!onDeleteEvent && <button className='action-button' onClick={()=> onDeleteEvent(rowData.id)}>Eliminar</button>}
+                        {!!onViewEvent && <button className='action-button' onClick={()=> onViewEvent(rowData)}>Hoja de vida</button>}      
+                    </div>
                 </td>
             )}
         </tr>
