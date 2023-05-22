@@ -12,8 +12,10 @@ import SupportArraySorter from './supportArraySorter.utils';
 import {formatDate} from '../../Utils/dateUtils'
 import { storeSupports } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-
+import FloatingWindow from "../FloatingWindow/floatingWindow.component"
 import './SupportsBody.css'
+import MaintenanceUpdateForm from '../MaintenanceUpdateForm/MaintenanceUpdateForm.component';
+import Modal from '../Modal/Modal.component';
 
 const SupportsBody = ({onActionEvent}) => {
   const[supports,setSupports]=useState(null)
@@ -21,6 +23,10 @@ const SupportsBody = ({onActionEvent}) => {
   const[paginatedSupports,setPaginatedSupports]=useState(null)
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isEditFormVisible, setIsEditFormVisible] = useState(false);
+  const [editableSupport, setEditableSupport] = useState(null);
+  const [isOpen, setIsOpen] = useState(null);
+  const [modalMessage, setModalMessage] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
@@ -41,8 +47,8 @@ const SupportsBody = ({onActionEvent}) => {
     }, 500)
   }, []);
 
-  const getAllSupports = async()=>{
-    const {response, error} = storedSupports? {response: storedSupports} : await supportService.getAllData()
+  const getAllSupports = async({forceAPI}={forceAPI: false})=>{
+    const {response, error} = storedSupports && !forceAPI ? {response: storedSupports} : await supportService.getAllData()
     if (error) {
       setSupports(null);
       setPaginatedSupports(null)
@@ -120,10 +126,52 @@ const SupportsBody = ({onActionEvent}) => {
     return searchResults;
   }
 
+  const onEditEvent = (data) => {
+    setIsEditFormVisible(true)
+    setEditableSupport(data)
+  }
+
+  const updateSupportForDevice = async({status, process_description})=>{
+    const updatedSupport = {
+      id: editableSupport.id,
+      status,
+      process_description, 
+    }
+
+    setLoading(true)
+    console.log(updatedSupport)
+    const {response, error} = await supportService.updateData(updatedSupport);
+    setLoading(false)
+    if (error) return setModalData('Vuelve a intentarlo mas tarde')
+    setModalData('Nuevo mantenimiento agendado','Completado!')
+    setIsEditFormVisible(false)
+    dispatch(storeSupports({ supports: null }))
+    getAllSupports({forceAPI: true})
+  }
+
+  const setModalData = (message,title)=> {
+    setModalMessage({message, title})
+    setIsOpen(true);
+  }
 
   return (
     <div className='body'>
         <article className='grid-1-2'>
+          { (isEditFormVisible && (
+            <FloatingWindow onClose={()=>{setIsEditFormVisible(false)}}>
+              <div className='support-form'>
+                 <MaintenanceUpdateForm updateMaintenance={updateSupportForDevice} supportData={supports.find((sup)=> sup.id === editableSupport.id)} />
+              </div>
+            </FloatingWindow>
+          ))}
+          <Modal
+              isOpen={isOpen}
+              onClose={() => {
+                setIsOpen(false)
+              }}
+              message={modalMessage?.message}
+              title={modalMessage?.title}
+            />
           {error && (
             <MessageComponent
               msg={`Error ${error.message}: ${error.body}`}
@@ -162,15 +210,17 @@ const SupportsBody = ({onActionEvent}) => {
                 type: support.type
               }))}  
               headers={[
-                'ID Mantenimiento',
-                'Código del equipo',
+                '# Mantenimiento',
+                '# Equipo',
                 'Nombre del equipo',
                 'Responsable',
                 'Fecha',
                 'Descripción',
                 'Estado',
-                'Tipo'
+                'Tipo',
+                'Acciones'
               ]}
+              onManageEvent={onEditEvent}
             />
           )}
           {paginatedSupports && !loading && (
