@@ -3,6 +3,13 @@ import './table.css'
 import Circle from '../Circle/circle.component'
 import Tooltip from '../ToolTip/tooltip.component'
 
+const deviceStatusMapping = {
+    pending: '#bb3333',
+    active: '#40bb30',
+    blocked: '#33ccff',
+    inactive: 'yellow'
+}
+
 const statusMapping = {
     pending: '#bb3333',
     active: '#40bb30',
@@ -25,15 +32,15 @@ const statusLabels = {
     DONE: 'Completado',
 }
 
-//const objectKeys = Object.keys(statusMapping);
+const objectKeys = Object.keys(deviceStatusMapping);
 
 const TableRow = ({rowData,onEditEvent, onViewEvent, onDeleteEvent, onManageEvent}) => {
     return (
         <tr>
             {Object.keys(rowData).map((key, index) => {
                 if(key==='status') {
-                    //const randomStatus = objectKeys[Math.floor(Math.random() * objectKeys.length)]
-                    const state = rowData[key] ? rowData[key] : 'default';
+                    const randomStatus = objectKeys[Math.floor(Math.random() * objectKeys.length)]
+                    const state = rowData[key] ? rowData[key] : randomStatus;
                     const color = statusMapping[state];
                     return <td className='td' key={index}>
                                 <Tooltip label= {statusLabels[state]}>

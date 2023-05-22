@@ -197,7 +197,7 @@ const DevicesBody = ({onActionEvent}) => {
                 name: device.name,
                 date_received: formatDate(device.date_received),
                 location: device.location,
-                alias: device.alias
+                status: device.status
               }))}  
               headers={[
                 'Número',
@@ -205,7 +205,7 @@ const DevicesBody = ({onActionEvent}) => {
                 'Nombre',
                 'Fecha de recibido',
                 'Ubicación y lugar',
-                'Alias'
+                'Estado'
               ]}
               onEditEvent={onEditEvent}
               onDeleteEvent={deleteData} 
