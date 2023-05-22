@@ -2,7 +2,6 @@ import React , { useState }from 'react';
 import backgroundImage from './background.jpeg';
 import LoginForm from '../../components/LoginForm/LoginForm.component';
 import './Login.css';
-import CustomDatePicker from '../../components/DatePicker/datepicker.component';
 import UserService from '../../Services/user.service';
 import Modal from '../../components/Modal/Modal.component';
 import { useNavigate } from 'react-router-dom';
@@ -42,7 +41,6 @@ const Login = () => {
         onClose={() => setIsOpen(false)}
         message={errorMessage}
       />
-    <CustomDatePicker/>
     </div>
   );
 };
