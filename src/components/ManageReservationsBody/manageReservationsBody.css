@@ -1,3 +1,9 @@
 .body {
     padding: 20px;
 }
+
+.add-reservation-form{
+    max-height: 400px;
+    overflow-y: auto;
+    padding-top: 30px;
+}

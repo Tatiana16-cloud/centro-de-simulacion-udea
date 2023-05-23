@@ -1,25 +1,98 @@
 import React, { useState } from "react";
 import "./AddReservation.css";
+import ReservationService from "../../Services/reservation.service";
+import Modal from "../Modal/Modal.component";
+import { useDispatch, useSelector } from "react-redux";
 
 function FormularioGestionarReservas() {
-  const [nombre, setNombre] = useState("");
-  const [fecha, setFecha] = useState("");
-  const [entidad, setEntidad] = useState("");
-  const [horaInicio, setHoraInicio] = useState("");
-  const [horaFin, setHoraFin] = useState("");
-  const [tipo, setTipo] = useState("");
-  const [descripcion, setDescripcion] = useState("");
+
+  const reservationService = new ReservationService()
+  const [reservationOutput, setReservationOutput] = useState({});
+  const [reservationData, setReservationData] = useState(null);
+  const [isReservationCreated, setIsReservationCreated] = useState(false);
+  const [isOpen, setIsOpen] = useState(null);
+  const [modalMessage, setModalMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const storedReservations = useSelector(state=>state.reservations)
+  const dispatch = useDispatch();
+
+  const [date, setFecha] = useState("");
+  const [faculty, setEntidad] = useState("");
+  const [program, setPrograma] = useState("");
+  const [semester, setSemestre] = useState("");
+  const [affiliation, setAfiliacion] = useState("");
+  const [participants, setParticipantes] = useState("");
+  const [responsible, setResponsable] = useState("");
+  const [start_time, setHoraInicio] = useState("");
+  const [end_time, setHoraFin] = useState("");
+  const [activity, setActividad] = useState("");
+  const [location, setLugar] = useState("");
+  const [equipment, setEquipos] = useState("");
+  const [description, setDescripcion] = useState("");
+
+  const createReservation = async () => {
+    const reservationService = new ReservationService();
+    const reservationData = {
+      date,
+      faculty,
+      program,
+      semester,
+      affiliation,
+      participants,
+      responsible,
+      start_time,
+      end_time,
+      activity,
+      location,
+      equipment,
+      description
+    };
+  
+    const { response, error } = await reservationService.createData(reservationData);
+    setLoading(false);
+  
+    if (error) {
+      setModalData('No se pudo crear la reserva', 'Ha ocurrido un error');
+      return;
+    }
+  
+    setLoading(true);
+    const { response: response2, error: error2 } = await reservationService.getById(response?.insertId);
+    setLoading(false);
+  
+    if (error2) {
+      setModalData('No se pudo crear la reserva', 'Ha ocurrido un error');
+      return;
+    }
+  
+    storedReservations.push(response2[0]);
+    setModalData('La reserva fue creada exitosamente', 'Completado!');
+    setIsReservationCreated(true);
+
+  };
+  
+
+  const setModalData = (message,title)=> {
+    setModalMessage({message, title})
+    setIsOpen(true);
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log({
-      nombre,
-      fecha,
-      entidad,
-      horaInicio,
-      horaFin,
-      tipo,
-      descripcion,
+      date,
+      faculty,
+      program,
+      semester,
+      affiliation,
+      participants,
+      responsible,
+      start_time,
+      end_time,
+      activity,
+      location,
+      equipment,
+      description
     });
   };
 
@@ -27,144 +100,144 @@ function FormularioGestionarReservas() {
     <form onSubmit={handleSubmit} className="formulario">
       <div className="formulario-columnas">
       <div>
-          <label htmlFor="fecha">Fecha de la actividad:</label>
+          <label htmlFor="date">Fecha de la activity:</label>
           <input
             type="date"
-            id="fecha"
-            value={fecha}
+            id="date"
+            value={date}
             onChange={(event) => setFecha(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="tipo">Facultad o entidad:</label>
+          <label htmlFor="faculty">Facultad o faculty:</label>
           <select
-            id="tipo"
-            value={tipo}
-            onChange={(event) => setTipo(event.target.value)}
+            id="faculty"
+            value={faculty}
+            onChange={(event) => setEntidad(event.target.value)}
             required
           >
             <option value="">Seleccionar</option>
-            <option value="Simulación de sistemas eléctricos">
-              Lorem ipsum dolor
+            <option value="Medicina">
+              Medicina
             </option>
-            <option value="Simulación de procesos industriales">
-            Lorem ipsum dolor
+            <option value="Anestesiología">
+            Anestesiología
             </option>
-            <option value="Simulación de circuitos electrónicos">
-            Lorem ipsum dolor
+            <option value="Microbiología">
+            Microbiología
             </option>
           </select>
         </div>
         <div>
-          <label htmlFor="tipo">Programa:</label>
+          <label htmlFor="program">Programa:</label>
           <select
-            id="tipo"
-            value={tipo}
-            onChange={(event) => setTipo(event.target.value)}
+            id="program"
+            value={program}
+            onChange={(event) => setPrograma(event.target.value)}
             required
           >
             <option value="">Seleccionar</option>
-            <option value="Simulación de sistemas eléctricos">
+            <option value="Medicina">
               Medicina
             </option>
-            <option value="Simulación de procesos industriales">
+            <option value="Instrumentación quirúrgica">
               Instrumentación quirúrgica
             </option>
-            <option value="Simulación de circuitos electrónicos">
+            <option value="Bioingeniería">
               Bioingeniería
             </option>
           </select>
         </div>
         <div>
-          <label htmlFor="nombre">Semestre</label>
+          <label htmlFor="semester">Semestre</label>
           <input
             type="text"
-            id="nombre"
-            value={nombre}
-            onChange={(event) => setNombre(event.target.value)}
+            id="semester"
+            value={semester}
+            onChange={(event) => setSemestre(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="tipo">Afiliación:</label>
+          <label htmlFor="affiliation">Afiliación:</label>
           <select
-            id="tipo"
-            value={tipo}
-            onChange={(event) => setTipo(event.target.value)}
+            id="affiliation"
+            value={affiliation}
+            onChange={(event) => setAfiliacion(event.target.value)}
             required
           >
             <option value="">Seleccionar</option>
-            <option value="">
+            <option value="Pregrado">
               Pregrado
             </option>
-            <option value="">
+            <option value="Posgrado">
               Posgrado 
             </option>
-            <option value="">
+            <option value="Extensión">
             Extensión
             </option>
-            <option value="">
+            <option value="Investigación">
             Investigación
             </option>
-            <option value="">
+            <option value="Administrativo">
             Administrativo
             </option>
-            <option value="">
+            <option value="Semillero">
             Semillero
             </option>
-            <option value="">
+            <option value="Otro">
             Otro
             </option>
           </select>
         </div>
         <div>
-          <label htmlFor="nombre">Número de participantes:</label>
+          <label htmlFor="participants">Número de participants:</label>
           <input
             type="text"
-            id="nombre"
-            value={nombre}
-            onChange={(event) => setNombre(event.target.value)}
+            id="participants"
+            value={participants}
+            onChange={(event) => setParticipantes(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="nombre">Nombre del responsable:</label>
+          <label htmlFor="responsible">Nombre del responsible:</label>
           <input
             type="text"
-            id="nombre"
-            value={nombre}
-            onChange={(event) => setNombre(event.target.value)}
+            id="responsible"
+            value={responsible}
+            onChange={(event) => setResponsable(event.target.value)}
             required
           />
         </div>
         
         <div>
-          <label htmlFor="horaInicio">Hora de inicio:</label>
+          <label htmlFor="start_time">Hora de inicio:</label>
           <input
             type="time"
-            id="horaInicio"
-            value={horaInicio}
+            id="start_time"
+            value={start_time}
             onChange={(event) => setHoraInicio(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="horaFin">Hora de fin:</label>
+          <label htmlFor="end_time">Hora de fin:</label>
           <input
             type="time"
-            id="horaFin"
-            value={horaFin}
+            id="end_time"
+            value={end_time}
             onChange={(event) => setHoraFin(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="tipo">Actividad:</label>
+          <label htmlFor="activity">Actividad:</label>
           <select
-            id="tipo"
-            value={tipo}
-            onChange={(event) => setTipo(event.target.value)}
+            id="activity"
+            value={activity}
+            onChange={(event) => setActividad(event.target.value)}
             required
           >
             <option value="">Seleccionar</option>
@@ -180,31 +253,31 @@ function FormularioGestionarReservas() {
           </select>
         </div>
         <div>
-          <label htmlFor="tipo">Lugar:</label>
+          <label htmlFor="location">Lugar:</label>
           <select
-            id="tipo"
-            value={tipo}
-            onChange={(event) => setTipo(event.target.value)}
+            id="location"
+            value={location}
+            onChange={(event) => setLugar(event.target.value)}
             required
           >
             <option value="">Seleccionar</option>
-            <option value="Simulación de sistemas eléctricos">
+            <option value="Sala 1">
               Sala 1
             </option>
-            <option value="Simulación de procesos industriales">
+            <option value="Sala 2">
               Sala 2
             </option>
-            <option value="Simulación de circuitos electrónicos">
+            <option value="Sala 3">
               Sala 3
             </option>
           </select>
         </div>
         <div>
-            <label htmlFor="tipo">Equipos e insumos:</label>
+            <label htmlFor="equipment">Equipos e insumos:</label>
             <select
-                id="tipo"
-                value={tipo}
-                onChange={(event) => setTipo(event.target.value)}
+                id="equipment"
+                value={equipment}
+                onChange={(event) => setEquipos(event.target.value)}
                 required
             >
                 <option value="">Seleccionar</option>
@@ -226,17 +299,16 @@ function FormularioGestionarReservas() {
             </select>
         </div>
 
-        <div className="descripcion">
-          <label htmlFor="descripcion">Descripción:</label>
+        <div className="description">
+          <label htmlFor="description">Descripción:</label>
           <textarea
-            id="descripcion"
-            value={descripcion}
+            id="description"
+            value={description}
             onChange={(event) => setDescripcion(event.target.value)}
-            required
           />
         </div>
       </div>
-      <button type="submit">Realizar reserva</button>
+      <button type="submit" onClick={createReservation}>Realizar reserva</button>
     </form>
   );
 }
