@@ -99,8 +99,8 @@ function FormularioGestionarReservas() {
   return (
     <form onSubmit={handleSubmit} className="formulario">
       <div className="formulario-columnas">
-      <div>
-          <label htmlFor="date">Fecha de la activity:</label>
+        <div>
+          <label htmlFor="date">Fecha de la actividad:</label>
           <input
             type="date"
             id="date"
@@ -110,7 +110,7 @@ function FormularioGestionarReservas() {
           />
         </div>
         <div>
-          <label htmlFor="faculty">Facultad o faculty:</label>
+          <label htmlFor="faculty">Facultad o entidad:</label>
           <select
             id="faculty"
             value={faculty}
@@ -150,7 +150,7 @@ function FormularioGestionarReservas() {
           </select>
         </div>
         <div>
-          <label htmlFor="semester">Semestre</label>
+          <label htmlFor="semester">Semestre:</label>
           <input
             type="text"
             id="semester"
@@ -192,7 +192,7 @@ function FormularioGestionarReservas() {
           </select>
         </div>
         <div>
-          <label htmlFor="participants">Número de participants:</label>
+          <label htmlFor="participants">Número de participantes:</label>
           <input
             type="text"
             id="participants"
@@ -202,7 +202,7 @@ function FormularioGestionarReservas() {
           />
         </div>
         <div>
-          <label htmlFor="responsible">Nombre del responsible:</label>
+          <label htmlFor="responsible">Nombre del responsable:</label>
           <input
             type="text"
             id="responsible"
@@ -308,7 +308,7 @@ function FormularioGestionarReservas() {
           />
         </div>
       </div>
-      <button type="submit" onClick={createReservation}>Realizar reserva</button>
+      <button type="submit" onClick={createReservation}>Crear reserva</button>
     </form>
   );
 }

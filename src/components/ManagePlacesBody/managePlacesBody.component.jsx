@@ -3,51 +3,85 @@ import Table from '../Table/table.component';
 import './managePlacesBody.css'
 import Toolbar from '../Toolbar/toolbar.component';
 import Button from '../Button/button.component';
+import FloatingWindow from '../FloatingWindow/floatingWindow.component';
 import SearchBox from '../SearchBox/searchbox.component';
 import Dropdown from '../Dropdown/dropdown.component';
+import AddPlace from '../AddPlace/AddPlace.component';
+import PlaceService from '../../Services/place.service';
 
 const ManagePlacesBody = ({someProp}) => {
+  const[places,setPlaces]=useState([])
+  const [isCreateFormVisible, setIsCreateFormVisible] = useState(false);
+  const placeService = new PlaceService()
+
+  useEffect(() => {
+    getAllPlaces()
+
+  }, []);
+
+  const getAllPlaces = async()=>{
+    const {response, error} = await placeService.getAllData()
+    if (error) {
+      setPlaces([]);
+      // setPaginatedPlaces(null)
+      // setFilteredPlaces(null)
+      // setError(error);
+    }else{
+      setPlaces(response);
+      // setPaginatedPlaces(paginatePlaces(response, currentPage, pageSize))
+      // setFilteredPlaces(response)
+      // setError(null);
+    }
+
+  }
+  
+  
   const dataExampleArray = [
     {
-      someProperty1: 'someProperty1B',
-      someProperty2: 'someProperty2B',
-      someProperty3: 'someProperty3B',
-      someProperty4: 'someProperty4B',
-      someProperty5: 'someProperty5B',
+      someProperty1: 'Macrosimulacion',
+      someProperty2: 'Salon 207',
+      someProperty3: '20',
+      someProperty4: 'Botones',
     }
   ]
 
   return (
     <div className='body'>
         <Toolbar>
-          <Button text={'Ingresar espacio'}/>
+        <Button text={'Ingresar espacio'} onClick={()=>setIsCreateFormVisible(true)}></Button>
           <SearchBox />
           <Dropdown
             label={'Filtrar por:'} 
             options={[
               { label: '', value: null},
-              { label: 'Rol'},
               { label: 'Ordenar A - Z'},
               { label: 'Ordenar Z - A'},
             ]}
           />
         </Toolbar>
+        { (isCreateFormVisible && (
+            <FloatingWindow onClose={()=>setIsCreateFormVisible(false)}>
+              <div className='add-place-form'>
+                 <AddPlace />
+              </div>
+            </FloatingWindow>
+          ))}
         <Table 
-              data={dataExampleArray.map((element)=> ({
-                someProperty1: element.someProperty1,
-                someProperty2: element.someProperty2,
-                someProperty3: element.someProperty3,
-                someProperty4: element.someProperty4,
-              }))}  
+              data={places.map((place)=> ({
+                name: place.name,
+                max_capacity: place.max_capacity,
+                location: place.location,
+              }))}   
               headers={[
                 'Nombre del espacio o sala',
                 'Ubicación',
                 'N° de personas (aforo)',
                 'Gestión',
               ]}
-            />
-    </div>
-  )
-}
+              />
+              {/* <AddPlace></AddPlace> */}
+      </div>
+    )
+  }
 
 export default ManagePlacesBody
