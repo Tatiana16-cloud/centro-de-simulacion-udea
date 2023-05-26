@@ -3,6 +3,8 @@ export const STORE_DEVICES = "DEVICES"
 export const STORE_EDITABLE_DEVICE = "EDITABLE_DEVICE"
 export const STORE_VIEWABLE_DEVICE = "VIEWABLE_DEVICE"
 export const STORE_SUPPORTS = "SUPPORTS"
+export const STORE_EDITABLE_USER = "EDITABLE_USER"
+export const STORE_VIEWABLE_USER = "VIEWABLE_USER"
 
 
 export const logInSuccess = ({user}) => {
@@ -32,5 +34,17 @@ export const storeEditableDevice = ({device}) => {
 export const storeViewableDevice = ({device}) => {
     return async function (dispatch) {
         dispatch({type: STORE_VIEWABLE_DEVICE, payload: device})
+    }
+}
+
+export const storeEditableUser = ({user}) => {
+    return async function (dispatch) {
+        dispatch({type: STORE_EDITABLE_USER, payload: user})
+    }
+}
+
+export const storeViewableUser = ({user}) => {
+    return async function (dispatch) {
+        dispatch({type: STORE_VIEWABLE_USER, payload: user})
     }
 }

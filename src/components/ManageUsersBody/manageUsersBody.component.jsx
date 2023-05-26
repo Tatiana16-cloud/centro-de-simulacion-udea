@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Table from '../Table/table.component';
 import Toolbar from '../Toolbar/toolbar.component';
-import Button from '../Button/button.component';
 import SearchBox from '../SearchBox/searchbox.component';
 import Dropdown from '../Dropdown/dropdown.component';
 import './manageUsersBody.css';
 import AddUserModal from '../AddUserModal/AddUserModal.component';
 
-const ManageUsersBody = ({ someProp }) => {
+const ManageUsersBody = ({onActionEvent}) => {
+
   const dataExampleArray = [
     {
       someProperty1: 'someProperty1',
@@ -18,16 +18,6 @@ const ManageUsersBody = ({ someProp }) => {
       someProperty6: 'someProperty6',
     },
   ];
-
-  const [showModal, setShowModal] = useState(false);
-
-  const handleAddUserClick = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
 
   return (
     <div className="body">
@@ -43,24 +33,6 @@ const ManageUsersBody = ({ someProp }) => {
           ]}
         />
       </Toolbar>
-      <Table
-        data={dataExampleArray.map((element) => ({
-          someProperty1: element.someProperty1,
-          someProperty2: element.someProperty2,
-          someProperty3: element.someProperty3,
-          someProperty4: element.someProperty4,
-          someProperty5: element.someProperty5,
-          someProperty6: element.someProperty6,
-        }))}
-        headers={[
-          'Número de identificación',
-          'Nombres y apellidos',
-          'Correo electrónico',
-          'Rol',
-          'Número de celular',
-          'Acciones',
-        ]}
-      />
       <AddUserModal></AddUserModal>
     </div>
   );

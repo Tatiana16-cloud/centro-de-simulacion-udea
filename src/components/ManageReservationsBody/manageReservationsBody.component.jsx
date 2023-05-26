@@ -3,11 +3,39 @@ import Table from '../Table/table.component';
 import './manageReservationsBody.css'
 import Toolbar from '../Toolbar/toolbar.component';
 import Button from '../Button/button.component';
+import FloatingWindow from '../FloatingWindow/floatingWindow.component';
 import SearchBox from '../SearchBox/searchbox.component';
 import Dropdown from '../Dropdown/dropdown.component';
-import AddReservation from '../AddReservation/AddReservation.component'
+import {formatDate, formatTime} from '../../Utils/dateUtils';
+import AddReservation from '../AddReservation/AddReservation.component';
+import ReservationService from '../../Services/reservation.service';
 
 const ManageReservationsBody = ({someProp}) => {
+  const[reservations,setReservations]=useState([])
+  const [isCreateFormVisible, setIsCreateFormVisible] = useState(false);
+  const reservationService = new ReservationService()
+
+  useEffect(() => {
+    getAllReservations()
+
+  }, []);
+
+  const getAllReservations = async()=>{
+    const {response, error} = await reservationService.getAllData()
+    if (error) {
+      setReservations([]);
+      // setPaginatedReservations(null)
+      // setFilteredReservations(null)
+      // setError(error);
+    }else{
+      setReservations(response);
+      // setPaginatedReservations(paginateReservations(response, currentPage, pageSize))
+      // setFilteredReservations(response)
+      // setError(null);
+    }
+
+  }
+
   const dataExampleArray = [
     {
       someProperty1: 'Reanimación',
@@ -19,10 +47,12 @@ const ManageReservationsBody = ({someProp}) => {
     }
   ]
 
+
+
   return (
     <div className='body'>
       <Toolbar>
-        <Button text={'Ingresar reserva'}></Button>
+        <Button text={'Ingresar reserva'} onClick={()=>setIsCreateFormVisible(true)}></Button>
         <SearchBox />
         <Dropdown 
           label={'Filtrar por:'} 
@@ -35,14 +65,20 @@ const ManageReservationsBody = ({someProp}) => {
         />
 
       </Toolbar>
+      { (isCreateFormVisible && (
+            <FloatingWindow onClose={()=>setIsCreateFormVisible(false)}>
+              <div className='add-reservation-form'>
+                 <AddReservation />
+              </div>
+            </FloatingWindow>
+          ))}
         <Table 
-              data={dataExampleArray.map((element)=> ({
-                someProperty1: element.someProperty1,
-                someProperty2: element.someProperty2,
-                someProperty3: element.someProperty3,
-                someProperty4: element.someProperty4,
-                someProperty5: element.someProperty5,
-                someProperty6: element.someProperty6
+              data={reservations.map((reservation)=> ({
+                activity: reservation.activity,
+                responsible: reservation.responsible,
+                location: reservation.location,
+                date: formatDate(reservation.date),
+                time: formatTime(reservation.start_time, reservation.end_time)
               }))}  
               headers={[
                 'Nombre de la práctica',
@@ -53,7 +89,7 @@ const ManageReservationsBody = ({someProp}) => {
                 'Gestión'
               ]}
             />
-            <AddReservation></AddReservation>
+            {/* <AddReservation></AddReservation> */}
     </div>
   )
 }
