@@ -74,8 +74,8 @@ const ManagePlacesBody = ({someProp}) => {
               }))}   
               headers={[
                 'Nombre del espacio o sala',
-                'Ubicación',
                 'N° de personas (aforo)',
+                'Ubicación',
                 'Gestión',
               ]}
               />

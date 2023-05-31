@@ -78,16 +78,7 @@ function FormularioGestionarPlaces() {
             required
           />
         </div>
-        <div>
-          <label htmlFor="location">Lugar:</label>
-          <input
-            type="text"
-            id="location"
-            value={location}
-            onChange={(event) => setLocation(event.target.value)}
-            required
-          />
-        </div>
+
         <div>
           <label htmlFor="max_capacity">Capacidad máxima (aforo):</label>
           <input
@@ -98,6 +89,18 @@ function FormularioGestionarPlaces() {
             required
           />
         </div>
+        
+        <div>
+          <label htmlFor="location">Lugar:</label>
+          <input
+            type="text"
+            id="location"
+            value={location}
+            onChange={(event) => setLocation(event.target.value)}
+            required
+          />
+        </div>
+        
 
       </div>
       <button type="submit" onClick={createPlace}>Crear espacio</button>
