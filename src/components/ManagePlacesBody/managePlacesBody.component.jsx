@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Table from '../Table/table.component';
 import './managePlacesBody.css'
 import Toolbar from '../Toolbar/toolbar.component';
+import Modal from '../Modal/Modal.component';
 import Button from '../Button/button.component';
 import FloatingWindow from '../FloatingWindow/floatingWindow.component';
 import SearchBox from '../SearchBox/searchbox.component';
@@ -11,7 +12,11 @@ import PlaceService from '../../Services/place.service';
 
 const ManagePlacesBody = ({someProp}) => {
   const[places,setPlaces]=useState([])
+  const [isOpen, setIsOpen] = useState(null);
+  const [modalMessage, setModalMessage] = useState(null);
+  const [editablePlace, setEditablePlace] = useState(null);
   const [isCreateFormVisible, setIsCreateFormVisible] = useState(false);
+  const [isEditFormVisible, setIsEditFormVisible] = useState(false);
   const placeService = new PlaceService()
 
   useEffect(() => {
@@ -23,27 +28,23 @@ const ManagePlacesBody = ({someProp}) => {
     const {response, error} = await placeService.getAllData()
     if (error) {
       setPlaces([]);
-      // setPaginatedPlaces(null)
-      // setFilteredPlaces(null)
-      // setError(error);
     }else{
       setPlaces(response);
-      // setPaginatedPlaces(paginatePlaces(response, currentPage, pageSize))
-      // setFilteredPlaces(response)
-      // setError(null);
     }
 
   }
-  
-  
-  const dataExampleArray = [
-    {
-      someProperty1: 'Macrosimulacion',
-      someProperty2: 'Salon 207',
-      someProperty3: '20',
-      someProperty4: 'Botones',
-    }
-  ]
+
+  const onEditEvent =(data)=>{
+    setIsEditFormVisible(true)
+    setEditablePlace(data)
+  }
+
+  const setModalEvent = (message,title)=> {
+    setModalMessage({message, title})
+    setIsOpen(true);
+    setIsCreateFormVisible(false)
+  }  
+
 
   return (
     <div className='body'>
@@ -59,26 +60,45 @@ const ManagePlacesBody = ({someProp}) => {
             ]}
           />
         </Toolbar>
+        <Modal
+              isOpen={isOpen}
+              onClose={() => { 
+                setIsOpen(false)
+              }}
+              message={modalMessage?.message}
+              title={modalMessage?.title}
+            />
         { (isCreateFormVisible && (
             <FloatingWindow onClose={()=>setIsCreateFormVisible(false)}>
               <div className='add-place-form'>
-                 <AddPlace />
+                 <AddPlace onCreated={getAllPlaces} onModalEvent={setModalEvent} />
+              </div>
+            </FloatingWindow>
+          ))}
+          { (isEditFormVisible && (
+            <FloatingWindow onClose={()=>setIsEditFormVisible(false)}>
+              <div className='add-place-form'>
+                 <AddPlace onModalEvent={setModalEvent} onEditEvent={getAllPlaces} place={editablePlace}/>
               </div>
             </FloatingWindow>
           ))}
         <Table 
               data={places.map((place)=> ({
+                id: place.id,
                 name: place.name,
                 max_capacity: place.max_capacity,
                 location: place.location,
               }))}   
               headers={[
+                'ID',
                 'Nombre del espacio o sala',
                 'N° de personas (aforo)',
                 'Ubicación',
                 'Gestión',
               ]}
+              onEditEvent={onEditEvent}
               />
+
               {/* <AddPlace></AddPlace> */}
       </div>
     )

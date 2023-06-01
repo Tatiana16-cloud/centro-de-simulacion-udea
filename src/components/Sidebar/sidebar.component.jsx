@@ -46,6 +46,23 @@ const Sidebar = ({onMenuItemClick, selectedOption = ACTIONS.viewDevices}) => {
       icon: faBars,
     }
   ]
+
+
+  // const [user, setUser] = useState(null)
+
+  // useEffect(()=>{
+  //   const userLocalString = localStorage.getItem('user');
+  //   const userLocal = JSON.parse(userLocalString)
+  //   if(userLocal?.name) setUser(userLocal)
+  //   if(!userLocal?.name) navigate('/')
+  // }, [])
+  // if(user.rol == "Admin")
+  // {
+  //   menuItems = menuItemsAdmin
+  // }
+  // else{
+  //   menuItems = menuItemsUser
+  // }
   
   const onItemClick = (itemIndex, subItemIndex) => {
     onMenuItemClick(menuItems[itemIndex].submenu[subItemIndex].action)
