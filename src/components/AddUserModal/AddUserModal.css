@@ -1,66 +1,43 @@
+/* AddUserModal.css */
+
 .formulario {
   display: flex;
   flex-direction: column;
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+  align-items: center;
 }
 
 .formulario-columnas {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
+  grid-template-columns: 1fr;
+  grid-row-gap: 1rem;
 }
 
-/* Estilos para el resto del formulario */
-/* 
-
-.formulario {
+.formulario-columnas > div {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
-  margin: auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-} */
-
-.formulario label {
-  font-size: 1.2em;
-  margin-bottom: 0.5em;
+  align-items: flex-start;
 }
 
-.formulario input,
-.formulario select {
-  padding: 0.5em;
-  font-size: 1.2em;
-  border-radius: 5px;
+label {
+  margin-bottom: 0.5rem;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #4caf50;
+  color: white;
   border: none;
-  margin-bottom: 1em;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.formulario input:focus,
-.formulario select:focus {
-  outline: none;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.formulario button[type="submit"] {
-  background-color: var(--primary-color);
-  color: #fff;
-  border: none;
-  padding: 0.5em 1em;
-  font-size: 1.2em;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  margin-top: 1em;
-}
-
-.formulario button[type="submit"]:hover {
-  background-color: #3e8e41;
 }
