@@ -43,8 +43,8 @@ const DevicesBody = ({onActionEvent}) => {
     }, 500)
   }, []);
 
-  const getAllDevices = async()=>{
-    const {response, error} = storedDevices? {response: storedDevices} : await deviceService.getAllData()
+  const getAllDevices = async(forceGet=false)=>{
+    const {response, error} = forceGet? await deviceService.getAllData() : storedDevices? {response: storedDevices} : await deviceService.getAllData()
     if (error) {
       setDevices(null);
       setPaginatedDevices(null)
@@ -82,6 +82,7 @@ const DevicesBody = ({onActionEvent}) => {
       if (error) return setError(error);
       let newData = devices.filter((el) => el.id !== response);
       setDevices(newData);
+      getAllDevices(true)
     } else {
       return;
     }
