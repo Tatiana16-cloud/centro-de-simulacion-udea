@@ -1,82 +1,133 @@
 import React, { useState } from "react";
 import "./AddUserModal.css";
+import UserService from "../../Services/user.service";
+import { useSelector } from "react-redux";
 
 function FormularioAñadirUsuario() {
-  const [nombre, setNombre] = useState("");
-  const [rol, setRol] = useState("");
-  const [contraseña, setContraseña] = useState("");
-  const [numeroCelular, setNumeroCelular] = useState("");
-  const [correoElectronico, setCorreoElectronico] = useState("");
+  const userService = new UserService()
+  const storedUsers = useSelector(state=>state.users)
+  const [loading, setLoading] = useState(false);
+  const [modalMessage, setModalMessage] = useState(null);
+  const [isUserCreated, setIsUserCreated] = useState(false);
+  const [isOpen, setIsOpen] = useState(null);
+
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [role, setRole] = useState("");
+  const [password, setPassword] = useState("");
+  const [mail, setMail] = useState("");
+  const [phone_number, setPhoneNumber] = useState("");
+
+  const createUser = async () => {
+    const userService = new UserService();
+    const userData = {
+      name,
+      username,
+      role,
+      password,
+      mail,
+      phone_number
+    };
+    const { response, error } = await userService.createData(userData);
+    setLoading(false);
+  
+    if (error) {
+      setModalData('No se pudo crear la reserva', 'Ha ocurrido un error');
+      return;
+    }
+  
+    setLoading(true);
+    const { response: response2, error: error2 } = await userService.getById(response?.insertId);
+    setLoading(false);
+  
+    if (error2) {
+      setModalData('No se pudo crear la reserva', 'Ha ocurrido un error');
+      return;
+    }
+  
+    storedUsers.push(response2[0]);
+    setModalData('La reserva fue creada exitosamente', 'Completado!');
+    setIsUserCreated(true);
+
+  };
+
+  const setModalData = (message,title)=> {
+    setModalMessage({message, title})
+    setIsOpen(true);
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({
-      nombre,
-      rol,
-      contraseña,
-      numeroCelular,
-      correoElectronico,
-    });
   };
 
   return (
     <form onSubmit={handleSubmit} className="formulario">
       <div className="formulario-columnas">
         <div>
-          <label htmlFor="nombre">Nombre de usuario:</label>
+          <label htmlFor="name">Nombre del usuario:</label>
           <input
             type="text"
-            id="nombre"
-            value={nombre}
-            onChange={(event) => setNombre(event.target.value)}
+            id="name"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="rol">Rol:</label>
+          <label htmlFor="username">Nombre del usuario:</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="role">Rol:</label>
           <select
-            id="rol"
-            value={rol}
-            onChange={(event) => setRol(event.target.value)}
+            id="role"
+            value={role}
+            onChange={(event) => setRole(event.target.value)}
             required
           >
             <option value="">Seleccionar</option>
             <option value="Administrador">Administrador</option>
-            <option value="Usuario">Usuario</option>
+            <option value="Docente">Docente</option>
           </select>
         </div>
         <div>
-          <label htmlFor="contraseña">Contraseña:</label>
+          <label htmlFor="password">Contraseña:</label>
           <input
             type="password"
-            id="contraseña"
-            value={contraseña}
-            onChange={(event) => setContraseña(event.target.value)}
+            id="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="numeroCelular">Número de celular:</label>
+          <label htmlFor="phone_number">Número de celular:</label>
           <input
             type="tel"
-            id="numeroCelular"
-            value={numeroCelular}
-            onChange={(event) => setNumeroCelular(event.target.value)}
+            id="phone_number"
+            value={phone_number}
+            onChange={(event) => setPhoneNumber(event.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="correoElectronico">Correo electrónico:</label>
+          <label htmlFor="mail">Correo electrónico:</label>
           <input
             type="email"
-            id="correoElectronico"
-            value={correoElectronico}
-            onChange={(event) => setCorreoElectronico(event.target.value)}
+            id="mail"
+            value={mail}
+            onChange={(event) => setMail(event.target.value)}
             required
           />
         </div>
       </div>
-      <button type="submit">Añadir usuario</button>
+      <button type="submit" onClick={createUser}>Añadir usuario</button>
     </form>
   );
 }
