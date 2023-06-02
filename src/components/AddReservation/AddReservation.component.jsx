@@ -201,16 +201,6 @@ function FormularioGestionarReservas() {
             required
           />
         </div>
-        <div>
-          <label htmlFor="responsible">Nombre del responsable:</label>
-          <input
-            type="text"
-            id="responsible"
-            value={responsible}
-            onChange={(event) => setResponsable(event.target.value)}
-            required
-          />
-        </div>
         
         <div>
           <label htmlFor="start_time">Hora de inicio:</label>
@@ -229,6 +219,16 @@ function FormularioGestionarReservas() {
             id="end_time"
             value={end_time}
             onChange={(event) => setHoraFin(event.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="responsible">Nombre del responsable:</label>
+          <input
+            type="text"
+            id="responsible"
+            value={responsible}
+            onChange={(event) => setResponsable(event.target.value)}
             required
           />
         </div>
@@ -308,7 +308,12 @@ function FormularioGestionarReservas() {
           />
         </div>
       </div>
-      <button type="submit" onClick={createReservation}>Crear reserva</button>
+      <div className="button-container">
+      <button type="submit" onClick={createReservation}>
+        Crear reserva
+      </button>
+    </div>
+      
     </form>
   );
 }

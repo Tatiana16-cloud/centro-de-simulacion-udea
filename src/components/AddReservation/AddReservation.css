@@ -1,13 +1,19 @@
+.description {
+  grid-column: 1 / span 4;
+}
+
+
 .formulario {
 display: flex;
 flex-direction: column;
 align-items: center;
-padding: 10;
+padding: 30;
+width: 700px;
 }
 
 .formulario-columnas {
 display: grid;
-grid-template-columns: repeat(5, 1fr);
+grid-template-columns: repeat(4, 1fr);
 gap: 1rem;
 width: 100%;
 margin-bottom: 1rem;
@@ -89,4 +95,3 @@ background-color: #023e8a;
 .descripcion {
     grid-column: 1 / span 5;
   }
-  
