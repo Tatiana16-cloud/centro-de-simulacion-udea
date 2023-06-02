@@ -3,8 +3,9 @@
 }
 
 .add-user-form {
-    height: 150px;
+    height: 500px;
     width: 800px;
     padding-top: 30px;
+    overflow-y: auto;
 
 }

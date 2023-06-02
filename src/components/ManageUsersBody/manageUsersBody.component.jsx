@@ -4,6 +4,7 @@ import FloatingWindow from '../FloatingWindow/floatingWindow.component';
 import Toolbar from '../Toolbar/toolbar.component';
 import UserService from '../../Services/user.service';
 import SearchBox from '../SearchBox/searchbox.component';
+import Modal from '../Modal/Modal.component';
 import Button from '../Button/button.component';
 import Dropdown from '../Dropdown/dropdown.component';
 import './manageUsersBody.css';
@@ -11,6 +12,9 @@ import AddUserModal from '../AddUserModal/AddUserModal.component';
 
 const ManageUsersBody = ({onActionEvent}) => {
   const[users,setUsers]=useState([])
+  const [isOpen, setIsOpen] = useState(null);
+  const [modalMessage, setModalMessage] = useState(null);
+
   const [isCreateFormVisible, setIsCreateFormVisible] = useState(false);
 
   const userService = new UserService()
@@ -28,16 +32,13 @@ const ManageUsersBody = ({onActionEvent}) => {
     }
   }
 
-  const dataExampleArray = [
-    {
-      someProperty1: 'someProperty1',
-      someProperty2: 'someProperty2',
-      someProperty3: 'someProperty3',
-      someProperty4: 'someProperty4',
-      someProperty5: 'someProperty5',
-      someProperty6: 'someProperty6',
-    },
-  ];
+  const setModalEvent = (message,title)=> {
+    setModalMessage({message, title})
+    setIsOpen(true);
+    setIsCreateFormVisible(false)
+  }  
+
+
 
   return (
     <div className="body">
@@ -54,10 +55,18 @@ const ManageUsersBody = ({onActionEvent}) => {
           ]}
         />
       </Toolbar>
+      <Modal
+              isOpen={isOpen}
+              onClose={() => { 
+                setIsOpen(false)
+              }}
+              message={modalMessage?.message}
+              title={modalMessage?.title}
+            />
       { (isCreateFormVisible && (
             <FloatingWindow onClose={()=>setIsCreateFormVisible(false)}>
               <div className='add-user-form'>
-              <AddUserModal />
+              <AddUserModal onCreated={getAllUsers} setModalEvent={setModalEvent}/>
               </div>
             </FloatingWindow>
           ))}

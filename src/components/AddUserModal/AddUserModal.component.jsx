@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./AddUserModal.css";
 import UserService from "../../Services/user.service";
 import { useSelector } from "react-redux";
 
-function FormularioAñadirUsuario() {
+function FormularioAñadirUsuario({onCreated, onModalEvent, user, onEditEvent}) {
   const userService = new UserService()
   const storedUsers = useSelector(state=>state.users)
   const [loading, setLoading] = useState(false);
@@ -11,6 +11,7 @@ function FormularioAñadirUsuario() {
   const [isUserCreated, setIsUserCreated] = useState(false);
   const [isOpen, setIsOpen] = useState(null);
 
+  const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("");
@@ -18,9 +19,23 @@ function FormularioAñadirUsuario() {
   const [mail, setMail] = useState("");
   const [phone_number, setPhoneNumber] = useState("");
 
+  useEffect(() => {
+    if(user){
+      setId(user.id)
+      setName(user.name)
+      setUsername(user.username)
+      setRole(user.role)
+      setPassword(user.password)
+      setMail(user.mail)
+      setPhoneNumber(user.phone_number)
+    }
+
+  }, [user]);
+
   const createUser = async () => {
     const userService = new UserService();
     const userData = {
+      id,
       name,
       username,
       role,
@@ -28,30 +43,49 @@ function FormularioAñadirUsuario() {
       mail,
       phone_number
     };
-    const { response, error } = await userService.createData(userData);
+    let response1 = null
+    let error1 = null
+
+    if(user){
+      userData.id = id
+      const { response, error } = await userService.createData(userData);
+      response1 = response
+      error1 = error
+    }
+    else{
+      const { response, error } = await userService.createData(userData);
+      response1 = response
+      error1 = error
+
+    }
     setLoading(false);
   
-    if (error) {
-      setModalData('No se pudo crear la reserva', 'Ha ocurrido un error');
+    if (error1) {
+      onModalEvent('No se pudo crear la reserva', 'Ha ocurrido un error');
       return;
     }
-  
+    console.log("Prueba 1")
     setLoading(true);
-    const { response: response2, error: error2 } = await userService.getById(response?.insertId);
+    const { response: response2, error: error2 } = await userService.getById(response1?.insertId);
     setLoading(false);
   
     if (error2) {
-      setModalData('No se pudo crear la reserva', 'Ha ocurrido un error');
+      onModalEvent('No se pudo crear la reserva', 'Ha ocurrido un error');
       return;
     }
-  
-    storedUsers.push(response2[0]);
-    setModalData('La reserva fue creada exitosamente', 'Completado!');
+    console.log("Prueba 2")
+    if(user){
+      onEditEvent()
+      onModalEvent("El usuario fue actualizado exitosamente", "Completado")
+    }
+    else{
+      onCreated()
+      onModalEvent('El espacio fue creado exitosamente', 'Completado!')
+    }
     setIsUserCreated(true);
+  }
 
-  };
-
-  const setModalData = (message,title)=> {
+  const setModalEvent = (message,title)=> {
     setModalMessage({message, title})
     setIsOpen(true);
   }

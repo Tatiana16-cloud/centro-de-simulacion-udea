@@ -12,6 +12,7 @@ import PlaceService from '../../Services/place.service';
 
 const ManagePlacesBody = ({someProp}) => {
   const[places,setPlaces]=useState([])
+  const [error, setError]=useState(null)
   const [isOpen, setIsOpen] = useState(null);
   const [modalMessage, setModalMessage] = useState(null);
   const [editablePlace, setEditablePlace] = useState(null);
@@ -44,6 +45,21 @@ const ManagePlacesBody = ({someProp}) => {
     setIsOpen(true);
     setIsCreateFormVisible(false)
   }  
+
+  const deleteData= async(id)=>{
+    let isDelete = window.confirm(
+      `¿Estás seguro de eliminar el registro con el id '${id}' ?`
+    );
+
+    if (isDelete) {
+      const {response, error} = await placeService.deleteData(id)
+      if (error) return setError(error);
+      let newData = places.filter((el) => el.id !== response);
+      setPlaces(newData);
+    } else {
+      return;
+    }
+  }
 
 
   return (
@@ -96,7 +112,9 @@ const ManagePlacesBody = ({someProp}) => {
                 'Ubicación',
                 'Gestión',
               ]}
+              
               onEditEvent={onEditEvent}
+              onDeleteEvent={deleteData}
               />
 
               {/* <AddPlace></AddPlace> */}

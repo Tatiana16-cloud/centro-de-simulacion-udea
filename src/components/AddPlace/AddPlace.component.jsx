@@ -9,6 +9,8 @@ function FormularioGestionarPlaces({onCreated, onModalEvent, place, onEditEvent}
   const [placeOutput, setPlaceOutput] = useState({});
   const [placeData, setPlaceData] = useState(null);
   const [isPlaceCreated, setIsPlaceCreated] = useState(false);
+  const [isOpen, setIsOpen] = useState(null);
+  const [modalMessage, setModalMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const storedPlaces = useSelector(state=>state.places)
   const dispatch = useDispatch();
@@ -69,6 +71,7 @@ function FormularioGestionarPlaces({onCreated, onModalEvent, place, onEditEvent}
     
     
     if(place){
+      
       onEditEvent()
       onModalEvent('El espacio fue actualizado exitosamente', 'Completado!');
     }
@@ -83,6 +86,7 @@ function FormularioGestionarPlaces({onCreated, onModalEvent, place, onEditEvent}
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log({
+      id,
       name,
       max_capacity,
       location
@@ -92,6 +96,7 @@ function FormularioGestionarPlaces({onCreated, onModalEvent, place, onEditEvent}
   return (
     <form onSubmit={handleSubmit} className="formulario">
       <div className="formulario-columnas">
+
       <div>
           <label htmlFor="name">Nombre del espacio:</label>
           <input
