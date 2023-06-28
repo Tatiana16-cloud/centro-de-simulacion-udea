@@ -139,8 +139,7 @@ const SupportsBody = ({onActionEvent}) => {
     if (isDelete) {
       const {response, error} = await supportService.deleteData(id)
       if (error) return setError(error);
-      let newData = supports.filter((el) => el.id !== response);
-      setSupports(newData);
+      await getAllSupports({forceAPI: true})
     } else {
       return;
     }

@@ -11,22 +11,20 @@ const deviceStatusMapping = {
 }
 
 const statusMapping = {
-    pending: '#bb3333',
-    active: '#40bb30',
-    blocked: '#33ccff',
-    inactive: 'yellow',
-    default: '#333333',
+    EXPIRED: '#bb3333',
+    COMMING: '#FFDD00',
+    ON_TIME: '#40bb30',
+    DEFAULT: '#333333',
     SCHEDULED: '#bb3333',
     CLOSED: '#222',
     DONE: '#40bb30'
 }
 
 const statusLabels = {
-    pending: 'Pendiente',
-    active: 'Activo',
-    blocked: 'Bloqueado',
-    inactive: 'Inactivo',
-    default: 'Sin estado',
+    EXPIRED: 'Mantenimiento vencido',
+    COMMING: 'Mantenimiento cercano',
+    ON_TIME: 'Mantenimiento a tiempo',
+    DEFAULT: 'Sin mantenimiento pendiente',
     SCHEDULED: 'Programado',
     CLOSED: 'Anulado',
     DONE: 'Completado',
