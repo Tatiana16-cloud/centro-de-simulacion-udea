@@ -36,15 +36,16 @@ const DevicesBody = ({onActionEvent}) => {
 
   useEffect(() => {
     setLoading(true);
-    getAllDevices()
+    getAllDevices({forceAPI: true})
     
     setTimeout(()=> {
       setLoading(false);
     }, 500)
   }, []);
 
-  const getAllDevices = async()=>{
-    const {response, error} = storedDevices? {response: storedDevices} : await deviceService.getAllData()
+  const getAllDevices = async({forceAPI}={forceAPI: false})=>{
+    console.log(forceAPI, storedDevices)
+    const {response, error} = forceAPI ? await deviceService.getAllData() : ( storedDevices? {response: storedDevices} : await deviceService.getAllData())
     if (error) {
       setDevices(null);
       setPaginatedDevices(null)
@@ -80,8 +81,7 @@ const DevicesBody = ({onActionEvent}) => {
     if (isDelete) {
       const {response, error} = await deviceService.deleteData(id)
       if (error) return setError(error);
-      let newData = devices.filter((el) => el.id !== response);
-      setDevices(newData);
+      await getAllDevices({forceAPI: true})
     } else {
       return;
     }
