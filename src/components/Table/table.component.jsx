@@ -2,7 +2,7 @@ import React from 'react'
 import TableRow from './TableRow.component'
 import './table.css';
 
-const Table = ({data, headers, onEditEvent, onViewEvent,onDeleteEvent,onManageEvent}) => {
+const Table = ({data,isIdInvisible, headers, onEditEvent, onViewEvent,onDeleteEvent,onManageEvent}) => {
 
     const columnTitles = headers.length > 0 ? headers : Object.keys(data[0]);
 
@@ -22,6 +22,7 @@ const Table = ({data, headers, onEditEvent, onViewEvent,onDeleteEvent,onManageEv
                 <tbody>
                     {data.length > 0 ? (data.map((el) => 
                         (<TableRow 
+                            isIdInvisible={isIdInvisible}
                             key={el.id} 
                             rowData={el}
                             onEditEvent={onEditEvent}
