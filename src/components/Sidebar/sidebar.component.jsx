@@ -67,7 +67,7 @@ const Sidebar = ({onMenuItemClick, selectedOption = ACTIONS.viewDevices}) => {
       {/* Contenido del sidebar */}
       <h3 className='title-text'>UNIVERSIDAD DE ANTIOQUÍA</h3>
       <p className='subtitle-text'>Sistema de inventario</p>
-      <p className='general-text'>Laboratorio de simulación y gestión del riesgo</p>
+      <p className='general-text'>Laboratorio de Simulación y Gestión del Riesgo</p>
       <MenuDropDown 
         menuItems={menuItems} 
         onItemClick={onItemClick}

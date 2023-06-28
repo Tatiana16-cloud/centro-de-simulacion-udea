@@ -34,10 +34,10 @@ const statusLabels = {
 
 const objectKeys = Object.keys(deviceStatusMapping);
 
-const TableRow = ({rowData,onEditEvent, onViewEvent, onDeleteEvent, onManageEvent}) => {
+const TableRow = ({rowData,isIdInvisible,onEditEvent, onViewEvent, onDeleteEvent, onManageEvent}) => {
     return (
         <tr>
-            {Object.keys(rowData).map((key, index) => {
+            {Object.keys(rowData).filter((e)=> isIdInvisible ? e !== 'id' : true).map((key, index) => {
                 if(key==='status') {
                     const randomStatus = objectKeys[Math.floor(Math.random() * objectKeys.length)]
                     const state = rowData[key] ? rowData[key] : randomStatus;

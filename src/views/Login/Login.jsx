@@ -2,8 +2,8 @@ import React , { useState }from 'react';
 import backgroundImage from './background.jpeg';
 import LoginForm from '../../components/LoginForm/LoginForm.component';
 import './Login.css';
-import UserService from '../../Services/user.service';
-import Modal from '../../components/Modal/Modal.component';
+import UserService from '../../Services/user.service'; /*Comunicacion con la base de datos, peticiones Http*/ 
+import Modal from '../../components/Modal/Modal.component'; /*Mensaje de error si se ingresa incorrectamente*/
 import { useNavigate } from 'react-router-dom';
 import { logInSuccess } from "../../redux/actions";
 import { useDispatch } from "react-redux";

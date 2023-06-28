@@ -21,7 +21,7 @@ const LoginForm = ({ onLogin }) => {
   return (
     <form className="login-form" onSubmit={handleSubmit}>
       <h2 className="login-form__title">
-        Sistema de investigacion de laboratorio de simulación y gestión del riesgo
+        Laboratorio de Simulación y Gestión del Riesgo
         </h2>
       <input
         className="login-form__input"

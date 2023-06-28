@@ -131,6 +131,21 @@ const SupportsBody = ({onActionEvent}) => {
     setEditableSupport(data)
   }
 
+  const onDeleteEvent = async(id) => {
+    let isDelete = window.confirm(
+      `¿Estás seguro de eliminar el mantenimiento: '${id}' ?`
+    );
+
+    if (isDelete) {
+      const {response, error} = await supportService.deleteData(id)
+      if (error) return setError(error);
+      let newData = supports.filter((el) => el.id !== response);
+      setSupports(newData);
+    } else {
+      return;
+    }
+  }
+
   const updateSupportForDevice = async({status, process_description})=>{
     const updatedSupport = {
       id: editableSupport.id,
@@ -204,23 +219,26 @@ const SupportsBody = ({onActionEvent}) => {
                 deviceID: support.device_id,
                 deviceName: support.device_name,
                 responsable: support.responsable,
+                responsable_verification: support.responsable_verification,
                 date: formatDate(support.date),
                 description: support.description,
                 status: support.status,
                 type: support.type
               }))}  
               headers={[
-                '# Mantenimiento',
                 '# Equipo',
                 'Nombre del equipo',
-                'Responsable',
+                'Responsable de Mantenimiento',
+                'Responsable de Verificación',
                 'Fecha',
                 'Descripción',
                 'Estado',
                 'Tipo',
                 'Acciones'
               ]}
+              isIdInvisible={true}
               onManageEvent={onEditEvent}
+              onDeleteEvent={onDeleteEvent}
             />
           )}
           {paginatedSupports && !loading && (

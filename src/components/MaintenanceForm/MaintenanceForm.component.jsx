@@ -9,11 +9,13 @@ import {
 import './MaintenanceForm.css'
 
 function MaintenanceForm({scheduleMaintenance}) {
-    const typesMantenimiento = ['Preventivo', 'Calibración', 'Otro'];
-    const usuarios = ['Usuario 1', 'Usuario 2', 'Usuario 3'];
+    const typesMantenimiento = ['Preventivo', 'Calibración','Correctivo','Otro'];
+    const usuarios = ['Mariana Gomez', 'Juan Carlos Caro', 'Mario Grisales','Esteban Berrío','Otro'];
+    const usuarios_verification = ['Mariana Gomez', 'Juan Carlos Caro', 'Mario Grisales','Esteban Berrío'];
 
     const [type, setTipo] = useState('');
     const [responsable, setResponsable] = useState('');
+    const [responsable_verification, setResponsableVerification] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState(new Date());
 
@@ -24,6 +26,7 @@ function MaintenanceForm({scheduleMaintenance}) {
             scheduleMaintenance({
                 type,
                 responsable,
+                responsable_verification,
                 date,
                 description
             })
@@ -52,7 +55,7 @@ function MaintenanceForm({scheduleMaintenance}) {
 
             <TextField
                 select
-                label="Responsable"
+                label="Responsable de Mantenimiento"
                 value={responsable}
                 onChange={(e) => setResponsable(e.target.value)}
                 required
@@ -74,6 +77,20 @@ function MaintenanceForm({scheduleMaintenance}) {
                 variant="outlined"
                 onChange={(e) => setDescription(e.target.value)}
             />
+
+            <TextField
+                select
+                label="Responsable de Verificación"
+                value={responsable_verification}
+                onChange={(e) => setResponsableVerification(e.target.value)}
+                required
+            >
+                {usuarios_verification.map((usuario) => (
+                <MenuItem key={usuario} value={usuario}>
+                    {usuario}
+                </MenuItem>
+                ))}
+            </TextField>
 
             <TextField
                 fullWidth

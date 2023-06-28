@@ -109,6 +109,7 @@ const DeviceInfo = ({deviceInput, button, onActionEvent}) => {
       const newSupport = {
         device_id: deviceInput.id.value,
         responsable: support.responsable,
+        responsable_verification: support.responsable_verification,
         date: support.date,
         description: support.description,
         status: 'SCHEDULED',
