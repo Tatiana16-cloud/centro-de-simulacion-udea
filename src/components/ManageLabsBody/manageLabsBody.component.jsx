@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import LabService from '../../Services/lab.service';
 import Table from '../Table/table.component';
+import FloatingWindow from '../FloatingWindow/floatingWindow.component';
 import './manageLabsBody.css'
 import Toolbar from '../Toolbar/toolbar.component';
 import Button from '../Button/button.component';
@@ -8,6 +10,11 @@ import Dropdown from '../Dropdown/dropdown.component';
 import AddPractice from '../AddPractice/AddPractice.component';
 
 const ManageLabsBody = ({someProp}) => {
+  const[labs,setLabs]=useState([]);
+  const [isCreateFormVisible, setIsCreateFormVisible] = useState(false);
+
+  const labService = new LabService()
+
   const dataExampleArray = [
     {
       someProperty1: 'someProperty1A',
@@ -19,10 +26,37 @@ const ManageLabsBody = ({someProp}) => {
     }
   ]
 
+  useEffect(() => {
+    getAllLabs()
+  }, []);
+
+  const getAllLabs = async()=>{
+    const {response, error} = await labService.getAllData()
+
+    if (error) {
+      setLabs([]);
+      // setPaginatedPracticessetPractices(null)
+      // setFilteredPracticessetPractices(null)
+      // setError(error);
+    }else{
+      setLabs(response);
+      // setPaginatedPractices(paginatePractices(response, currentPage, pageSize))
+      // setFilteredPracticessetPractices(response)
+      // setError(null);
+    }
+  }
+
   return (
     <div className='body'>
+      { (isCreateFormVisible && (
+            <FloatingWindow onClose={()=>setIsCreateFormVisible(false)}>
+              <div className='add-lab-form'>
+                <AddPractice/>
+              </div>
+            </FloatingWindow>
+          ))}
       <Toolbar>
-        <Button text={'Ingresar práctica'}/>
+        <Button text={'Ingresar práctica'} onClick={()=>setIsCreateFormVisible(true)}/>
         <SearchBox />
         <Dropdown
             label={'Filtrar por:'} 
@@ -35,18 +69,18 @@ const ManageLabsBody = ({someProp}) => {
           />
       </Toolbar>
         <Table 
-              data={dataExampleArray.map((element)=> ({
-                someProperty1: element.someProperty1,
-                someProperty2: element.someProperty2,
-                someProperty3: element.someProperty3,
+              data={labs.map((lab)=> ({
+                id: lab.id,
+                name: lab.name,
+                location: lab.location,
               }))}  
               headers={[
+                'ID',
                 'Nombre de la práctica',
                 'Lugar de realización',
                 'Acciones'
               ]}
             />
-            <AddPractice></AddPractice>
     </div>
   )
 }

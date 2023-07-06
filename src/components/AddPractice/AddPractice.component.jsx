@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./AddPractice.css";
 
-function FormularioGestionarReservas() {
+function FormularioGestionarReservas(onCreated) {
   const [nombre, setNombre] = useState("");
   const [equipos, setEquipos] = useState("");
   const [lugar, setLugar] = useState("");

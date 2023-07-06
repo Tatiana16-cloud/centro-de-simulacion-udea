@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ReservationService from '../../Services/reservation.service';
 import Table from '../Table/table.component';
 import './manageReservationsBody.css'
 import Toolbar from '../Toolbar/toolbar.component';
@@ -8,6 +9,10 @@ import Dropdown from '../Dropdown/dropdown.component';
 import AddReservation from '../AddReservation/AddReservation.component'
 
 const ManageReservationsBody = ({someProp}) => {
+  const[reservations,setReservations]=useState(null)
+
+  const reservationService = new ReservationService()
+
   const dataExampleArray = [
     {
       someProperty1: 'Reanimación',
@@ -18,6 +23,28 @@ const ManageReservationsBody = ({someProp}) => {
       someProperty6: 'Botones',
     }
   ]
+
+  useEffect(() => {
+    getAllReservations()
+  }, []);
+
+  const getAllReservations = async()=>{
+    const {response, error} = await reservationService.getAllData()
+    
+    if (error) {
+      setReservations(null);
+      // setPaginatedReservations(null)
+      // setFilteredReservations(null)
+      // setError(error);
+    }else{
+      setReservations(response);
+      // setPaginatedReservations(paginateReservations(response, currentPage, pageSize))
+      // setFilteredReservations(response)
+      // setError(null);
+    }
+
+
+  }
 
   return (
     <div className='body'>
@@ -36,15 +63,16 @@ const ManageReservationsBody = ({someProp}) => {
 
       </Toolbar>
         <Table 
-              data={dataExampleArray.map((element)=> ({
-                someProperty1: element.someProperty1,
-                someProperty2: element.someProperty2,
-                someProperty3: element.someProperty3,
-                someProperty4: element.someProperty4,
-                someProperty5: element.someProperty5,
-                someProperty6: element.someProperty6
+              data={reservations.map((reservation)=> ({
+                id: reservation.id,
+                activity: reservation.activity,
+                responsible: reservation.responsible,
+                location: reservation.location,
+                date: reservation.date,
+                start_time: reservation.start_time
               }))}  
               headers={[
+                'ID',
                 'Nombre de la práctica',
                 'Encargado',
                 'Lugar',
